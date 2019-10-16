@@ -33,7 +33,6 @@ public class xDrive {
 
                 final double v1 = gamepad1.right_stick_y - gamepad1.right_stick_x -leftX;
                 final double v2 = gamepad1.right_stick_y + gamepad1.right_stick_x +leftX;
-                final double v2 = gamepad1.right_stick_y + gamepad1.right_stick_x +leftX;
                 final double v3 = gamepad1.right_stick_y - gamepad1.right_stick_x +leftX;
                 final double v4 = gamepad1.right_stick_y + gamepad1.right_stick_x -leftX;
 
