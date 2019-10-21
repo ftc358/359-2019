@@ -6,9 +6,9 @@ package org.firstinspires.ftc.teamcode;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.Servo;
 
-public class TeleOp359 {
-    @TeleOp
-    public static class xDrive359 extends LinearOpMode {
+@TeleOp
+public class TeleOp359 extends LinearOpMode{
+
         DcMotor motor1, motor2, motor3, motor4;
 //        DcMotor motor1i, motor2i;
 //        Servo servoNeck, servoGrip;
@@ -103,7 +103,7 @@ public class TeleOp359 {
 
             }
         }
-    }
+
 }
 
 //                double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
