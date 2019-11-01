@@ -11,7 +11,7 @@ public class TeleOp359 extends LinearOpMode {
 
     DcMotor motor1, motor2, motor3, motor4;
     DcMotor motor1i, motor2i;
-    // Servo servoNeck, servoGrip;
+//    Servo servoNeck, servoGrip;
 
     public void runOpMode() throws InterruptedException {
 
@@ -26,6 +26,9 @@ public class TeleOp359 extends LinearOpMode {
 
         motor1i = hardwareMap.dcMotor.get("motor1i");
         motor2i = hardwareMap.dcMotor.get("motor2i");
+
+//        servoNeck = hardwareMap.servo.get("servoN");
+//        servoGrip = hardwareMap.servo.get("servoG");
 
 
         waitForStart();
