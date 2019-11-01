@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
@@ -27,6 +28,9 @@ public class TeleOp359 extends LinearOpMode {
         motor1i = hardwareMap.dcMotor.get("motor1i");
         motor2i = hardwareMap.dcMotor.get("motor2i");
 
+        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+
 //        servoNeck = hardwareMap.servo.get("servoN");
 //        servoGrip = hardwareMap.servo.get("servoG");
 
@@ -48,8 +52,8 @@ public class TeleOp359 extends LinearOpMode {
             final double v4 = rightY + rightX - leftX;
 
             motor1.setPower(0.7 * v1);
-            motor2.setPower(-0.7 * v2);
-            motor3.setPower(-0.7 * v3);
+            motor2.setPower(0.7 * v2);
+            motor3.setPower(0.7 * v3);
             motor4.setPower(0.7 * v4);
 
             telemetry.addData("motor1", motor1.getPower());
@@ -62,16 +66,17 @@ public class TeleOp359 extends LinearOpMode {
             boolean leftBump = gamepad1.left_bumper;
             boolean rightBump = gamepad1.right_bumper;
 
-            motor1i.setPower(0);
-            motor2i.setPower(0);
-
-            if (leftBump) {
+            if (leftBump == true) {
                 motor1i.setPower(-1);
                 motor2i.setPower(1);
             }
-            else if (rightBump) {
+            else if (rightBump == true) {
                 motor1i.setPower(1);
                 motor2i.setPower(-1);
+            }
+            else{
+                motor1i.setPower(0);
+                motor2i.setPower(0);
             }
 
 
