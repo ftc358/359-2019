@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+@Autonomous
 public class Auto359Red extends LinearOpMode {
 
     DcMotor motor1, motor2, motor3, motor4;
@@ -72,18 +74,17 @@ public class Auto359Red extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()){
-            //Haven't changed the values yet
-            Forward(motor1, motor2, motor3, motor4, 0.25, 2500);
-            Slide(motor1, motor2, motor3, motor4, 0.25, 1000);
-            Forward(motor1, motor2, motor3, motor4, -0.25, 1500);
-            Slide(motor1, motor2, motor3, motor4, 0.25, 500);
-            Forward(motor1, motor2, motor3, motor4, -0.25, 500);
-            Slide(motor1, motor2, motor3, motor4, -0.25, 2500);
-            Forward(motor1, motor2, motor3, motor4, 0.25, 500);
-            Slide(motor1, motor2, motor3, motor4, 0.25, 3150);
-            Forward(motor1, motor2, motor3, motor4, 0.25, 700);
-            Slide(motor1, motor2, motor3, motor4, -0.25, 3000);
 
+            Forward(motor1,motor2,motor3,motor4,0.5,2500);
+            Slide(motor1,motor2,motor3,motor4,-0.5,1000);
+            Forward(motor1,motor2,motor3,motor4,-0.5,1500);
+            Slide(motor1,motor2,motor3,motor4,-0.5,500);
+            Forward(motor1,motor2,motor3,motor4,-0.5,500);
+            Slide(motor1,motor2,motor3,motor4,0.5,2500);
+            Forward(motor1,motor2,motor3,motor4,0.5,500);
+            Slide(motor1,motor2,motor3,motor4,-0.5,3150);
+            Forward(motor1,motor2,motor3,motor4,-0.5,700);
+            Slide(motor1,motor2,motor3,motor4,0.5,3000);
         }
     }
 }
