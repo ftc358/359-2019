@@ -68,12 +68,11 @@ public class Foundation359 extends LinearOpMode {
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-        while (opModeIsActive()){
+        if (opModeIsActive()){
             Thread.sleep(23000);
             Forward(motor1,motor2,motor3,motor4,0.5,3000);
             Slide(motor1,motor2,motor3,motor4,0.5,1500);
             Forward(motor1,motor2,motor3,motor4,-0.5,2000);
-            break;
         }
     }
 }
