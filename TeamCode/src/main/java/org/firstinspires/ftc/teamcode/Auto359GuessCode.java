@@ -16,6 +16,7 @@ public class Auto359GuessCode extends LinearOpMode {
         motor2.setPower(power);
         motor3.setPower(power);
         motor4.setPower(power);
+
         Thread.sleep(timer);
 
         motor1.setPower(0);
@@ -29,6 +30,7 @@ public class Auto359GuessCode extends LinearOpMode {
         motor2.setPower(-power);
         motor3.setPower(-power);
         motor4.setPower(power);
+
         Thread.sleep(timer);
 
         motor1.setPower(0);
@@ -42,6 +44,7 @@ public class Auto359GuessCode extends LinearOpMode {
         motor2.setPower(-power);
         motor3.setPower(power);
         motor4.setPower(-power);
+
         Thread.sleep(timer);
 
         motor1.setPower(0);
@@ -53,29 +56,34 @@ public class Auto359GuessCode extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
 
         motor1 = hardwareMap.dcMotor.get("motor1");
-        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2 = hardwareMap.dcMotor.get("motor2");
-        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor3 = hardwareMap.dcMotor.get("motor3");
-        motor3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor4 = hardwareMap.dcMotor.get("motor4");
-        motor4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        motor1i = hardwareMap.dcMotor.get("motor1i");
-        motor2i = hardwareMap.dcMotor.get("motor2i");
+        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        motor1i = hardwareMap.dcMotor.get("motor1i");
+        motor2i = hardwareMap.dcMotor.get("motor2i");
+
         waitForStart();
-        while (opModeIsActive()){
+
+        if (opModeIsActive()){
             Forward(motor1,motor2,motor3,motor4,0.5,2500);
             Slide(motor1,motor2,motor3,motor4,-0.5,1000);
             Forward(motor1,motor2,motor3,motor4,-0.5,1500);
             Slide(motor1,motor2,motor3,motor4,-0.5,500);
             Forward(motor1,motor2,motor3,motor4,-0.5,500);
             Slide(motor1,motor2,motor3,motor4,0.5,2500);
-            break;
+            Forward(motor1,motor2,motor3,motor4,0.5,500);
+            Slide(motor1,motor2,motor3,motor4,-0.5,3150);
+            Forward(motor1,motor2,motor3,motor4,-0.5,700);
+            Slide(motor1,motor2,motor3,motor4,0.5,3000);
         }
     }
 }
