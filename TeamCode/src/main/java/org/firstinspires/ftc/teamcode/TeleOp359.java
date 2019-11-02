@@ -2,20 +2,18 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOp359 extends OpMode {
+public class TeleOp359 extends LinearOpMode {
 
     DcMotor motor1, motor2, motor3, motor4;
     DcMotor motor1i, motor2i;
 //    Servo servoNeck, servoGrip;
 
-    public void init() {
+    public void runOpMode() throws InterruptedException {
 
         motor1 = hardwareMap.dcMotor.get("motor1");
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -29,52 +27,52 @@ public class TeleOp359 extends OpMode {
         motor1i = hardwareMap.dcMotor.get("motor1i");
         motor2i = hardwareMap.dcMotor.get("motor2i");
 
-        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
-        motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-
 //        servoNeck = hardwareMap.servo.get("servoN");
 //        servoGrip = hardwareMap.servo.get("servoG");
-    }
 
-    public void loop() {
 
-        // mecanum wheels
-        double leftX = gamepad1.left_stick_x;
-        double rightY= -gamepad1.right_stick_y;
-        double rightX= gamepad1.right_stick_x;
+        waitForStart();
+        while (opModeIsActive()) {
+            telemetry.addData("opModeIsActive", opModeIsActive());
+            telemetry.update();
 
-        final double v1 = rightY - rightX - leftX;
-        final double v2 = rightY + rightX + leftX;
-        final double v3 = rightY - rightX + leftX;
-        final double v4 = rightY + rightX - leftX;
 
-        motor1.setPower(0.7 * v1);
-        motor2.setPower(0.7 * v2);
-        motor3.setPower(0.7 * v3);
-        motor4.setPower(0.7 * v4);
+            // mecanum wheels
+            double RightX = gamepad1.right_stick_x;
+            double LeftY= -gamepad1.left_stick_y;
+            double LeftX= gamepad1.left_stick_x;
 
-        telemetry.addData("motor1", motor1.getPower());
-        telemetry.addData("motor2", motor2.getPower());
-        telemetry.addData("motor3", motor3.getPower());
-        telemetry.addData("motor4", motor4.getPower());
-        telemetry.update();
+            final double v1 = LeftY - LeftX - RightX;
+            final double v2 = LeftY + LeftX + RightX;
+            final double v3 = LeftY - LeftX + RightX;
+            final double v4 = LeftY + LeftX - RightX;
 
-        // intake mechanism
-        boolean leftBump = gamepad1.left_bumper;
-        boolean rightBump = gamepad1.right_bumper;
+            motor1.setPower(v1);
+            motor2.setPower(-v2);
+            motor3.setPower(-v3);
+            motor4.setPower(v4);
 
-        if (leftBump == true) {
-            motor1i.setPower(-1);
-            motor2i.setPower(1);
-        }
-        else if (rightBump == true) {
-            motor1i.setPower(1);
-            motor2i.setPower(-1);
-        }
-        else{
+            telemetry.addData("motor1", motor1.getPower());
+            telemetry.addData("motor2", motor2.getPower());
+            telemetry.addData("motor3", motor3.getPower());
+            telemetry.addData("motor4", motor4.getPower());
+            telemetry.update();
+
+            // intake mechanism
+            boolean leftBump = gamepad1.left_bumper;
+            boolean rightBump = gamepad1.right_bumper;
+
             motor1i.setPower(0);
             motor2i.setPower(0);
-        }
+
+            if (leftBump) {
+                motor1i.setPower(-1);
+                motor2i.setPower(1);
+            }
+            else if (rightBump) {
+                motor1i.setPower(1);
+                motor2i.setPower(-1);
+            }
 
 
 //            // Placement mechanism -- neck
@@ -100,5 +98,7 @@ public class TeleOp359 extends OpMode {
 //                servoGrip.setPosition(0);
 //            }
 
+        }
     }
+
 }
