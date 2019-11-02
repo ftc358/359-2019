@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
+@Disabled
 public class Tick extends LinearOpMode {
     DcMotor motor1, motor2, motor3, motor4;
     public void runOpMode() throws InterruptedException {

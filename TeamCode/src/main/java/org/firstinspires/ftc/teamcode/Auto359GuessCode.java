@@ -11,6 +11,45 @@ public class Auto359GuessCode extends LinearOpMode {
     DcMotor motor1, motor2, motor3, motor4;
     DcMotor motor1i, motor2i;
 
+    public static void Forward(DcMotor motor1, DcMotor motor2, DcMotor motor3, DcMotor motor4, double power, long timer) throws InterruptedException {
+        motor1.setPower(power);
+        motor2.setPower(power);
+        motor3.setPower(power);
+        motor4.setPower(power);
+        Thread.sleep(timer);
+
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
+    public static void Turn(DcMotor motor1, DcMotor motor2, DcMotor motor3, DcMotor motor4, double power, long timer) throws InterruptedException {
+        motor1.setPower(power);
+        motor2.setPower(-power);
+        motor3.setPower(-power);
+        motor4.setPower(power);
+        Thread.sleep(timer);
+
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
+    public static void Slide(DcMotor motor1, DcMotor motor2, DcMotor motor3, DcMotor motor4, double power, long timer) throws InterruptedException {
+        motor1.setPower(power);
+        motor2.setPower(-power);
+        motor3.setPower(power);
+        motor4.setPower(-power);
+        Thread.sleep(timer);
+
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
     public void runOpMode() throws InterruptedException{
 
         motor1 = hardwareMap.dcMotor.get("motor1");
@@ -30,11 +69,12 @@ public class Auto359GuessCode extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()){
-
-            //Those are just random numbers I put, don't actually run it seriously...
-            Encoders359.Forward(motor1, motor2, motor3, motor4, 0.7,1000);
-            Encoders359.Turn(motor1, motor2, motor3, motor4, 0.7,1000);
-            Encoders359.Drift(motor1, motor2, motor3, motor4, 0.7,1000);
+            Forward(motor1,motor2,motor3,motor4,0.5,2500);
+            Slide(motor1,motor2,motor3,motor4,-0.5,1000);
+            Forward(motor1,motor2,motor3,motor4,-0.5,1500);
+            Slide(motor1,motor2,motor3,motor4,-0.5,500);
+            Forward(motor1,motor2,motor3,motor4,-0.5,500);
+            Slide(motor1,motor2,motor3,motor4,0.5,2500);
             break;
         }
     }
