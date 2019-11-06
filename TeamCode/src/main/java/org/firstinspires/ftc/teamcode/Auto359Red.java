@@ -76,15 +76,15 @@ public class Auto359Red extends LinearOpMode {
         if (opModeIsActive()){
 
             Forward(motor1,motor2,motor3,motor4,0.5,2500);
-            Slide(motor1,motor2,motor3,motor4,-0.5,1000);
+            Slide(motor1,motor2,motor3,motor4,0.5,1000);
             Forward(motor1,motor2,motor3,motor4,-0.5,1500);
-            Slide(motor1,motor2,motor3,motor4,-0.5,500);
+            Slide(motor1,motor2,motor3,motor4,0.5,500);
             Forward(motor1,motor2,motor3,motor4,-0.5,500);
-            Slide(motor1,motor2,motor3,motor4,0.5,2500);
+            Slide(motor1,motor2,motor3,motor4,-0.5,2500);
             Forward(motor1,motor2,motor3,motor4,0.5,500);
-            Slide(motor1,motor2,motor3,motor4,-0.5,3150);
+            Slide(motor1,motor2,motor3,motor4,0.5,3150);
             Forward(motor1,motor2,motor3,motor4,-0.5,700);
-            Slide(motor1,motor2,motor3,motor4,0.5,3000);
+            Slide(motor1,motor2,motor3,motor4,-0.5,3000);
         }
     }
 }
