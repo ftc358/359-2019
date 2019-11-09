@@ -32,19 +32,19 @@ public class TestVuforiaSkyStoneNavigation extends LinearOpMode {
     private static final float mmPerInch        = 25.4f;
     private static final float stoneZ = 2.00f * mmPerInch;
 
-    private OpenGLMatrix lastLocation = null;
-    private VuforiaLocalizer vuforia = null;
-    WebcamName webcamName = null;
+    private OpenGLMatrix lastLocation;
+    private VuforiaLocalizer vuforia;
+    WebcamName webcam;
     private boolean targetVisible = false;
 
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
 
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
 //      int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 //      VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = webcamName;
+        parameters.cameraName = webcam;
 
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
         VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
