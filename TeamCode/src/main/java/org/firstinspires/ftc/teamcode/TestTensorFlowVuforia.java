@@ -34,10 +34,10 @@ public class TestTensorFlowVuforia extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            detected = lookForwardAndCheck();
+            lookForwardAndCheck();
 
             tfod.deactivate();
-            break;
+
             /**
              * TODO: create different states of the Autonomous program
              */
@@ -69,59 +69,60 @@ public class TestTensorFlowVuforia extends LinearOpMode {
         }
     }
 
-    private int lookForwardAndCheck() {
+    private void lookForwardAndCheck() {
         int position = 0;
         initVuforiaThingy();
 
+        /**
+         * position = 1 is Skystone left, 2 is middle, and 3 is right
+         */
+
         if (tfod != null) {
             tfod.activate();
-            // getUpdatedRecognitions() will return null if no new information is available since
-            // the last time that call was made.
-            while (position == 0) {
-                updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("updatedRecognitions", updatedRecognitions.toString());
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    telemetry.addData("What is the position", position);
-                    // step through the list of recognitions and display boundary info.
+        }
+
+        // getUpdatedRecognitions() will return null if no new information is available since
+        // the last time that call was made.
+        while (position == 0) {
+            updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("updatedRecognitions", updatedRecognitions.toString());
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                telemetry.addData("What is the position", position);
+                // step through the list of recognitions and display boundary info.
 //                    int i = 0;
 //                    for (Recognition recognition : updatedRecognitions) {
 //                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
 //                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f", recognition.getLeft(), recognition.getTop());
 //                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f", recognition.getRight(), recognition.getBottom());
 //                    }
-                    telemetry.update();
+                telemetry.update();
 
-                    /**
-                     * position = 1 is Skystone left, 2 is middle, and 3 is right
-                     */
-
-                    if (updatedRecognitions.size() == 2){
-                        if (updatedRecognitions.contains(LABEL_SECOND_ELEMENT)){
-                            if (updatedRecognitions.remove(LABEL_FIRST_ELEMENT)){
-                                int THRESHOLD = 300;
-                                for (Recognition recognition : updatedRecognitions) {
-                                    if (recognition.getTop() < THRESHOLD){
-                                        position = 1;
-                                    }
-                                    else if (recognition.getTop() > THRESHOLD){
-                                        position = 2;
-                                    }
+                if (updatedRecognitions.size() == 2){
+                    if (updatedRecognitions.contains(LABEL_SECOND_ELEMENT)){
+                        if (updatedRecognitions.remove(LABEL_FIRST_ELEMENT)){
+                            int THRESHOLD = 300;
+                            for (Recognition recognition : updatedRecognitions) {
+                                if (recognition.getTop() < THRESHOLD){
+                                    position = 1;
+                                }
+                                else if (recognition.getTop() > THRESHOLD){
+                                    position = 2;
                                 }
                             }
                         }
-                        else {
-                            //This means that we have not detected a Skystone, so the Skystone is
-                            // probably at position 3
-                            position = 3;
-                        }
                     }
-                    else{
-                        return 0;
+                    else {
+                        //This means that we have not detected a Skystone, so the Skystone is
+                        // probably at position 3
+                        position = 3;
                     }
+                }
+                else{
+//                        return 0;
                 }
             }
         }
-        return position;
+//        return position;
     }
 }
