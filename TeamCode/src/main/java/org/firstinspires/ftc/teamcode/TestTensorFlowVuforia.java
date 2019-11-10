@@ -27,20 +27,35 @@ public class TestTensorFlowVuforia extends LinearOpMode {
     private TFObjectDetector tfod;
     List<Recognition> updatedRecognitions;
     int detected = 0;
+    state state359;
 
     public void runOpMode() throws InterruptedException {
 
+        state359 = state.DETECT;
         waitForStart();
 
         while (opModeIsActive()) {
+            switch (state359){
 
-            lookForwardAndCheck();
+                case DETECT:
+                    detected = lookForwardAndCheck();
+                    telemetry.addData("position of the skystone", detected);
+                    telemetry.update();
+                    state359 = state.DRIVE;
+                    break;
 
-            tfod.deactivate();
+                case DRIVE:
+                    state359 = state.PARK;
+                    break;
 
-            /**
-             * TODO: create different states of the Autonomous program
-             */
+                case PARK:
+                    state359 = state.STOP;
+                    break;
+
+                case STOP:
+                    break;
+            }
+
         }
     }
 
@@ -69,7 +84,7 @@ public class TestTensorFlowVuforia extends LinearOpMode {
         }
     }
 
-    private void lookForwardAndCheck() {
+    private int lookForwardAndCheck() {
         int position = 0;
         initVuforiaThingy();
 
@@ -79,12 +94,24 @@ public class TestTensorFlowVuforia extends LinearOpMode {
 
         if (tfod != null) {
             tfod.activate();
+        }else {
+            return 0;
         }
 
         // getUpdatedRecognitions() will return null if no new information is available since
         // the last time that call was made.
         while (position == 0) {
             updatedRecognitions = tfod.getUpdatedRecognitions();
+            int maxSize = 0;
+            for (int i = 0; i < 50; i++) {
+                List<Recognition> newRecognitions = tfod.getUpdatedRecognitions();
+                if (newRecognitions != null && newRecognitions.size() > maxSize) {
+                    updatedRecognitions = newRecognitions;
+                    maxSize = newRecognitions.size();
+                }
+                sleep(10);
+            }
+
             if (updatedRecognitions != null) {
                 telemetry.addData("updatedRecognitions", updatedRecognitions.toString());
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
@@ -100,14 +127,25 @@ public class TestTensorFlowVuforia extends LinearOpMode {
 
                 if (updatedRecognitions.size() == 2){
                     if (updatedRecognitions.contains(LABEL_SECOND_ELEMENT)){
-                        if (updatedRecognitions.remove(LABEL_FIRST_ELEMENT)){
-                            int THRESHOLD = 300;
-                            for (Recognition recognition : updatedRecognitions) {
-                                if (recognition.getTop() < THRESHOLD){
+                        int THRESHOLD = 300;
+                        int skystonePosition;
+                        int stonePosition;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
+                                skystonePosition = (int) recognition.getTop();
+
+                                if (skystonePosition < THRESHOLD){
                                     position = 1;
-                                }
-                                else if (recognition.getTop() > THRESHOLD){
+                                }else if (skystonePosition > THRESHOLD){
                                     position = 2;
+                                }
+
+                            }else if (recognition.getLabel() == LABEL_FIRST_ELEMENT){
+                                stonePosition = (int) recognition.getTop();
+                                if (stonePosition < THRESHOLD){
+                                    position = 2;
+                                }else if (stonePosition > THRESHOLD){
+                                    position = 1;
                                 }
                             }
                         }
@@ -118,11 +156,14 @@ public class TestTensorFlowVuforia extends LinearOpMode {
                         position = 3;
                     }
                 }
-                else{
-//                        return 0;
-                }
             }
         }
-//        return position;
+        return position;
+    }
+
+    enum state{
+
+        DETECT, DRIVE, PARK, STOP
+
     }
 }
