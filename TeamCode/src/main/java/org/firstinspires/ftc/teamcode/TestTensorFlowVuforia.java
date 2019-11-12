@@ -26,6 +26,7 @@ public class TestTensorFlowVuforia extends LinearOpMode {
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
     List<Recognition> updatedRecognitions;
+
     int detected = 0;
     state state359;
 
@@ -45,10 +46,28 @@ public class TestTensorFlowVuforia extends LinearOpMode {
                     break;
 
                 case DRIVE:
+                    if (detected == 1){
+
+                    }
+                    if (detected == 2){
+
+                    }
+                    if (detected == 3){
+
+                    }
                     state359 = state.PARK;
                     break;
 
                 case PARK:
+                    if (detected == 2){
+
+                    }
+                    if (detected == 2){
+
+                    }
+                    if (detected == 3){
+
+                    }
                     state359 = state.STOP;
                     break;
 
@@ -113,20 +132,10 @@ public class TestTensorFlowVuforia extends LinearOpMode {
             }
 
             if (updatedRecognitions != null) {
-                telemetry.addData("updatedRecognitions", updatedRecognitions.toString());
-                telemetry.addData("# Object Detected", updatedRecognitions.size());
-                telemetry.addData("What is the position", position);
-                // step through the list of recognitions and display boundary info.
-//                    int i = 0;
-//                    for (Recognition recognition : updatedRecognitions) {
-//                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-//                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f", recognition.getLeft(), recognition.getTop());
-//                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f", recognition.getRight(), recognition.getBottom());
-//                    }
-                telemetry.update();
 
+                sleep(1000);
                 if (updatedRecognitions.size() == 2){
-                    if (updatedRecognitions.contains(LABEL_SECOND_ELEMENT)){
+                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT ||updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT){
                         int THRESHOLD = 300;
                         int skystonePosition;
                         int stonePosition;
