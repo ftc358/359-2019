@@ -20,9 +20,8 @@ public class TestTensorFlowVuforia extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private static final String VUFORIA_KEY = "AXzW9CD/////AAAAGTPAtr9HRUXZmowtd9p0AUwuXiBVONS/c5x1q8OvjMrQ8/XJGxEp0TP9Kl8PvqSzeXOWIvVa3AeB6MyAQboyW/Pgd/c4a4U/VBs1ouUsVBkEdbaq1iY7RR0cjYr3eLwEt6tmI37Ugbwrd5gmxYvOBQkGqzpbg2U2bVLycc5PkOixu7PqPqaINGZYSlvUzEMAenLOCxZFpsayuCPRbWz6Z9UJfLeAbfAPmmDYoKNXRFll8/jp5Ie7iAhSQgfFggWwyiqMRCFA3GPTsOJS4H1tSiGlMjVzbJnkusPKXfJ0dK3OH9u7ox9ESpi91T0MemXw3nn+/6QRvjGtgFH+wMDuQX7ta89+yW+wqdXX9ZQu8BzY";
-
+//    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    private static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
     List<Recognition> updatedRecognitions;
@@ -74,7 +73,6 @@ public class TestTensorFlowVuforia extends LinearOpMode {
                 case STOP:
                     break;
             }
-
         }
     }
 
@@ -90,10 +88,10 @@ public class TestTensorFlowVuforia extends LinearOpMode {
         /**
          * Webcam Initialization
          */
-//        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = CAMERA_CHOICE;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+//        parameters.cameraDirection = CAMERA_CHOICE;
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -132,16 +130,14 @@ public class TestTensorFlowVuforia extends LinearOpMode {
             }
 
             if (updatedRecognitions != null) {
-
-                sleep(1000);
                 if (updatedRecognitions.size() == 2){
                     if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT ||updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT){
-                        int THRESHOLD = 300;
+                        int THRESHOLD = 200;
                         int skystonePosition;
                         int stonePosition;
                         for (Recognition recognition : updatedRecognitions) {
                             if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
-                                skystonePosition = (int) recognition.getTop();
+                                skystonePosition = (int) recognition.getLeft();
 
                                 if (skystonePosition < THRESHOLD){
                                     position = 1;
@@ -150,7 +146,7 @@ public class TestTensorFlowVuforia extends LinearOpMode {
                                 }
 
                             }else if (recognition.getLabel() == LABEL_FIRST_ELEMENT){
-                                stonePosition = (int) recognition.getTop();
+                                stonePosition = (int) recognition.getLeft();
                                 if (stonePosition < THRESHOLD){
                                     position = 2;
                                 }else if (stonePosition > THRESHOLD){
