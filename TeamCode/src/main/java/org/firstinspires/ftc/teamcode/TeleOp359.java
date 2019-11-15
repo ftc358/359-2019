@@ -11,10 +11,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TeleOp359 extends LinearOpMode {
 
     DcMotor motor1, motor2, motor3, motor4;
-//    DcMotor frontintakeleft, frontintakeright;
-
-    boolean leftBump = gamepad1.left_bumper;
-    boolean rightBump = gamepad1.right_bumper;
+    DcMotor frontintakeleft, frontintakeright;
+    DcMotor corehexmotorleft, corehexmotorright;
 
     public void runOpMode() throws InterruptedException {
 
@@ -22,6 +20,10 @@ public class TeleOp359 extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
+        corehexmotorleft = hardwareMap.dcMotor.get("chleft");
+        corehexmotorright = hardwareMap.dcMotor.get("chright");
+        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
+        frontintakeright = hardwareMap.dcMotor.get("frontright");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -30,12 +32,8 @@ public class TeleOp359 extends LinearOpMode {
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-
-//        frontintakeleft = hardwareMap.dcMotor.get("motor1i");
-//        frontintakeright = hardwareMap.dcMotor.get("motor2i");
-//
-//        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
-//
+        corehexmotorright.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -43,7 +41,9 @@ public class TeleOp359 extends LinearOpMode {
             telemetry.addData("opModeIsActive", opModeIsActive());
             telemetry.update();
 
-            // mecanum wheels
+            /**
+             * Mechanum
+             */
             double RightX = gamepad1.right_stick_x;
             double LeftY = -gamepad1.left_stick_y;
             double LeftX = gamepad1.left_stick_x;
@@ -64,17 +64,27 @@ public class TeleOp359 extends LinearOpMode {
             telemetry.addData("motor4", motor4.getPower());
             telemetry.update();
 
-//            frontintakeleft.setPower(0);
-//            frontintakeright.setPower(0);
-//
-//            if (leftBump) {
-//                frontintakeleft.setPower(-1);
-//                frontintakeright.setPower(-1);
-//            }
-//            else if (rightBump) {
-//                frontintakeleft.setPower(1);
-//                frontintakeright.setPower(1);
-//            }
+            /**
+             *Intake Mechanism
+             */
+            if (gamepad1.left_bumper){
+                corehexmotorleft.setPower(1);
+                corehexmotorright.setPower(1);
+                frontintakeleft.setPower(1);
+                frontintakeright.setPower(1);
+            }
+            else if (gamepad1.right_bumper){
+                corehexmotorleft.setPower(-1);
+                corehexmotorright.setPower(-1);
+                frontintakeleft.setPower(-1);
+                frontintakeright.setPower(-1);
+            }
+            else{
+                corehexmotorleft.setPower(0);
+                corehexmotorright.setPower(0);
+                frontintakeleft.setPower(0);
+                frontintakeright.setPower(0);
+            }
         }
     }
 }
