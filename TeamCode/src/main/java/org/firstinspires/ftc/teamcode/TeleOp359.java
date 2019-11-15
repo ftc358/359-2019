@@ -11,9 +11,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TeleOp359 extends LinearOpMode {
 
     DcMotor motor1, motor2, motor3, motor4;
-    DcMotor motor1i, motor2i;
+//    DcMotor frontintakeleft, frontintakeright;
 
-//    Servo servoNeck, servoGrip;
+    boolean leftBump = gamepad1.left_bumper;
+    boolean rightBump = gamepad1.right_bumper;
 
     public void runOpMode() throws InterruptedException {
 
@@ -30,14 +31,11 @@ public class TeleOp359 extends LinearOpMode {
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motor1i = hardwareMap.dcMotor.get("motor1i");
-        motor2i = hardwareMap.dcMotor.get("motor2i");
-
-        motor2i.setDirection(DcMotorSimple.Direction.REVERSE);
-
-//        servoNeck = hardwareMap.servo.get("servoN");
-//        servoGrip = hardwareMap.servo.get("servoG");
-
+//        frontintakeleft = hardwareMap.dcMotor.get("motor1i");
+//        frontintakeright = hardwareMap.dcMotor.get("motor2i");
+//
+//        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
+//
 
         waitForStart();
         while (opModeIsActive()) {
@@ -47,8 +45,8 @@ public class TeleOp359 extends LinearOpMode {
 
             // mecanum wheels
             double RightX = gamepad1.right_stick_x;
-            double LeftY= -gamepad1.left_stick_y;
-            double LeftX= gamepad1.left_stick_x;
+            double LeftY = -gamepad1.left_stick_y;
+            double LeftX = gamepad1.left_stick_x;
 
             double v1 = LeftY - LeftX - RightX;
             double v2 = LeftY + LeftX + RightX;
@@ -66,47 +64,17 @@ public class TeleOp359 extends LinearOpMode {
             telemetry.addData("motor4", motor4.getPower());
             telemetry.update();
 
-            // intake mechanism
-            boolean leftBump = gamepad1.left_bumper;
-            boolean rightBump = gamepad1.right_bumper;
-
-            motor1i.setPower(0);
-            motor2i.setPower(0);
-
-            if (leftBump) {
-                motor1i.setPower(-1);
-                motor2i.setPower(-1);
-            }
-            else if (rightBump) {
-                motor1i.setPower(1);
-                motor2i.setPower(1);
-            }
-
-
-//            // Placement mechanism -- neck
-//            float neckleft=gamepad1.left_trigger;
-//            float neckright=gamepad1.right_trigger;
+//            frontintakeleft.setPower(0);
+//            frontintakeright.setPower(0);
 //
-//            if (neckleft>0.1) {
-//                servoNeck.setPosition(servoNeck.getPosition()-0.1);
+//            if (leftBump) {
+//                frontintakeleft.setPower(-1);
+//                frontintakeright.setPower(-1);
 //            }
-//            if (neckright>0.1) {
-//                servoNeck.setPosition(servoNeck.getPosition()+0.1);
+//            else if (rightBump) {
+//                frontintakeleft.setPower(1);
+//                frontintakeright.setPower(1);
 //            }
-//
-//
-//            // Placement mechanism -- Grip
-//            boolean a =
-//            boolean up=true;
-//
-//            if (a && up) {
-//                servoGrip.setPosition(0.25);
-//            }
-//            else if (a && !up) {
-//                servoGrip.setPosition(0);
-//            }
-
         }
     }
-
 }
