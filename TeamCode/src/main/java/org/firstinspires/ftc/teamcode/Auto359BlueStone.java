@@ -17,12 +17,12 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous
-public class TestTensorFlowVuforia extends LinearOpMode {
+public class Auto359BlueStone extends LinearOpMode {
 
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
-//    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    //    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -32,20 +32,6 @@ public class TestTensorFlowVuforia extends LinearOpMode {
     state state359;
 
     DcMotor motor1, motor2, motor3, motor4;
-
-    public static void Forward(DcMotor motor1, DcMotor motor2, DcMotor motor3, DcMotor motor4, double power, long timer) throws InterruptedException {
-        motor1.setPower(power);
-        motor2.setPower(power);
-        motor3.setPower(power);
-        motor4.setPower(power);
-
-        Thread.sleep(timer);
-
-        motor1.setPower(0);
-        motor2.setPower(0);
-        motor3.setPower(0);
-        motor4.setPower(0);
-    }
 
     public void runOpMode() throws InterruptedException {
 
@@ -69,7 +55,7 @@ public class TestTensorFlowVuforia extends LinearOpMode {
             switch (state359){
 
                 case DETECT:
-                    Forward(motor1,motor2,motor3,motor4,0.25, 2000);
+                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
                     detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
