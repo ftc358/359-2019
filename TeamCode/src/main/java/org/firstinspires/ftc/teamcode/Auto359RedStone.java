@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -32,6 +33,7 @@ public class Auto359RedStone extends LinearOpMode {
     state state359;
 
     DcMotor motor1, motor2, motor3, motor4;
+    CRServo foundation;
 
     public void runOpMode() throws InterruptedException {
 
@@ -39,6 +41,7 @@ public class Auto359RedStone extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
+        foundation = hardwareMap.crservo.get("foundation");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -52,10 +55,18 @@ public class Auto359RedStone extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            switch (state359){
 
+            telemetry.addData("going into state", state359);
+            telemetry.update();
+
+            switch (state359) {
                 case DETECT:
-                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+
+                    forwardWithOneMotor(motor1,0.5, 2000);
+                    forwardWithOneMotor(motor2,-0.5, 2000);
+                    forwardWithOneMotor(motor3,-0.5, 2000);
+                    forwardWithOneMotor(motor4,0.25, 2000);
+                    Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, 2000);
                     detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
@@ -64,19 +75,36 @@ public class Auto359RedStone extends LinearOpMode {
 
                 case DRIVE:
                     if (detected == 1){
-
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,3000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-4000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-1500);   //Turn around the stone
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1500);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-3000);   //Push the stone over the line
                     }
                     if (detected == 2){
-
-                    }
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,3000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-3000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2500);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,1500);    //Turn around the stone
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,4000);    //Push the stone over the line
+                        }
                     if (detected == 3){
-
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,2000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2500);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,1500);    //Turn around the stone
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,4000);    //Push the stone over the line
                     }
                     state359 = state.PARK;
                     break;
 
                 case PARK:
-                    if (detected == 2){
+                    if (detected == 1){
 
                     }
                     if (detected == 2){
@@ -95,6 +123,8 @@ public class Auto359RedStone extends LinearOpMode {
                     motor4.setPower(0);
                     break;
             }
+
+            break;
         }
     }
 
@@ -134,7 +164,7 @@ public class Auto359RedStone extends LinearOpMode {
 
         if (tfod != null) {
             tfod.activate();
-        }else {
+        } else {
             return 0;
         }
 
@@ -153,32 +183,31 @@ public class Auto359RedStone extends LinearOpMode {
             }
 
             if (updatedRecognitions != null) {
-                if (updatedRecognitions.size() == 2){
-                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT ||updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT){
+                if (updatedRecognitions.size() == 2) {
+                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
                         int THRESHOLD = 200;
                         int skystonePosition;
                         int stonePosition;
                         for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
+                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
                                 skystonePosition = (int) recognition.getLeft();
 
-                                if (skystonePosition < THRESHOLD){
+                                if (skystonePosition < THRESHOLD) {
                                     position = 2;
-                                }else if (skystonePosition > THRESHOLD){
+                                } else if (skystonePosition > THRESHOLD) {
                                     position = 3;
                                 }
 
-                            }else if (recognition.getLabel() == LABEL_FIRST_ELEMENT){
+                            } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
                                 stonePosition = (int) recognition.getLeft();
-                                if (stonePosition < THRESHOLD){
+                                if (stonePosition < THRESHOLD) {
                                     position = 3;
-                                }else if (stonePosition > THRESHOLD){
+                                } else if (stonePosition > THRESHOLD) {
                                     position = 2;
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         //This means that we have not detected a Skystone, so the Skystone is
                         // probably at position 3
                         position = 1;
@@ -189,9 +218,25 @@ public class Auto359RedStone extends LinearOpMode {
         return position;
     }
 
-    enum state{
+    enum state {
 
         DETECT, DRIVE, PARK, STOP
 
+    }
+
+    private void forwardWithOneMotor(DcMotor motor, double power, int distance) {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setTargetPosition(distance);
+        motor.setPower(-power);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (motor.isBusy()) {
+            telemetry.addData("targetPosition", motor.getTargetPosition());
+            telemetry.addData("isBusy", motor.isBusy());
+            telemetry.addData("power", motor.getPower());
+            telemetry.addData("currentPosition", motor.getCurrentPosition());
+            telemetry.addData("mode", motor.getMode());
+            telemetry.update();
+        }
+        motor.setPower(0);
     }
 }

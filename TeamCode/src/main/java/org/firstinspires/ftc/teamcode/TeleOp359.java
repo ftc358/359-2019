@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,6 +14,7 @@ public class TeleOp359 extends LinearOpMode {
     DcMotor motor1, motor2, motor3, motor4;
     DcMotor frontintakeleft, frontintakeright;
     DcMotor corehexmotorleft, corehexmotorright;
+    CRServo foundation;
 
     public void runOpMode() throws InterruptedException {
 
@@ -24,6 +26,7 @@ public class TeleOp359 extends LinearOpMode {
         corehexmotorright = hardwareMap.dcMotor.get("chright");
         frontintakeleft = hardwareMap.dcMotor.get("frontleft");
         frontintakeright = hardwareMap.dcMotor.get("frontright");
+        foundation = hardwareMap.crservo.get("foundation");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -32,8 +35,7 @@ public class TeleOp359 extends LinearOpMode {
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-        corehexmotorright.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
+//        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -58,32 +60,32 @@ public class TeleOp359 extends LinearOpMode {
             motor3.setPower(v3);
             motor4.setPower(v4);
 
-            telemetry.addData("motor1", motor1.getPower());
-            telemetry.addData("motor2", motor2.getPower());
-            telemetry.addData("motor3", motor3.getPower());
-            telemetry.addData("motor4", motor4.getPower());
+            telemetry.addData("position1", motor1.getCurrentPosition());
+            telemetry.addData("position2", motor2.getCurrentPosition());
+            telemetry.addData("position3", motor3.getCurrentPosition());
+            telemetry.addData("position4", motor4.getCurrentPosition());
             telemetry.update();
 
             /**
              *Intake Mechanism
              */
             if (gamepad1.left_bumper){
-                corehexmotorleft.setPower(1);
-                corehexmotorright.setPower(1);
-                frontintakeleft.setPower(1);
-                frontintakeright.setPower(1);
+                corehexmotorleft.setPower(0.5);
+                corehexmotorright.setPower(0.5);
+//                frontintakeleft.setPower(1);
+//                frontintakeright.setPower(1);
             }
             else if (gamepad1.right_bumper){
-                corehexmotorleft.setPower(-1);
-                corehexmotorright.setPower(-1);
-                frontintakeleft.setPower(-1);
-                frontintakeright.setPower(-1);
+                corehexmotorleft.setPower(-0.5);
+                corehexmotorright.setPower(-0.5);
+//                frontintakeleft.setPower(-1);
+//                frontintakeright.setPower(-1);
             }
             else{
                 corehexmotorleft.setPower(0);
                 corehexmotorright.setPower(0);
-                frontintakeleft.setPower(0);
-                frontintakeright.setPower(0);
+//                frontintakeleft.setPower(0);
+//                frontintakeright.setPower(0);
             }
         }
     }
