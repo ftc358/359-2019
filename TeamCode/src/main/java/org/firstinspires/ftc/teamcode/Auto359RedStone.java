@@ -19,7 +19,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Autonomous
 public class Auto359RedStone extends LinearOpMode {
-
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -61,60 +60,52 @@ public class Auto359RedStone extends LinearOpMode {
 
             switch (state359) {
                 case DETECT:
-
-                    forwardWithOneMotor(motor1,0.5, 2000);
-                    forwardWithOneMotor(motor2,-0.5, 2000);
-                    forwardWithOneMotor(motor3,-0.5, 2000);
-                    forwardWithOneMotor(motor4,0.25, 2000);
                     Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, 2000);
                     detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
                     state359 = state.DRIVE;
-                    break;
 
                 case DRIVE:
                     if (detected == 1){
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,3000);
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-4000);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-1500);   //Turn around the stone
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1500);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-3000);   //Push the stone over the line
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,3000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,2000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-3000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,1000);   //Turn around the stone
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-5000);   //Push the stone over the line
                     }
                     if (detected == 2){
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,3000);
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-3000);
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2500);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,1500);    //Turn around the stone
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2000);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,4000);    //Push the stone over the line
-                        }
-                    if (detected == 3){
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2500);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,3000);
                         Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,2000);
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2500);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-1000);    //Turn around the stone
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-4000);    //Push the stone over the line
+                    }
+                    if (detected == 3){
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2000);
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,3000);
                         Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2000);
                         Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2500);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,1500);    //Turn around the stone
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2000);
-                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,4000);    //Push the stone over the line
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-1000);    //Turn around the stone
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1000);
+                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-3500);    //Push the stone over the line
                     }
                     state359 = state.PARK;
-                    break;
 
                 case PARK:
                     if (detected == 1){
-
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
                     }
                     if (detected == 2){
-
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
                     }
                     if (detected == 3){
-
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
                     }
                     state359 = state.STOP;
-                    break;
 
                 case STOP:
                     motor1.setPower(0);
@@ -123,7 +114,6 @@ public class Auto359RedStone extends LinearOpMode {
                     motor4.setPower(0);
                     break;
             }
-
             break;
         }
     }

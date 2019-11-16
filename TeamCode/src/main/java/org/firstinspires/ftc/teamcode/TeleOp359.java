@@ -35,7 +35,7 @@ public class TeleOp359 extends LinearOpMode {
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-//        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -69,23 +69,33 @@ public class TeleOp359 extends LinearOpMode {
             /**
              *Intake Mechanism
              */
-            if (gamepad1.left_bumper){
+            if (gamepad2.left_bumper){
                 corehexmotorleft.setPower(0.5);
                 corehexmotorright.setPower(0.5);
-//                frontintakeleft.setPower(1);
-//                frontintakeright.setPower(1);
+                frontintakeleft.setPower(1);
+                frontintakeright.setPower(1);
             }
-            else if (gamepad1.right_bumper){
+            else if (gamepad2.right_bumper){
                 corehexmotorleft.setPower(-0.5);
                 corehexmotorright.setPower(-0.5);
-//                frontintakeleft.setPower(-1);
-//                frontintakeright.setPower(-1);
+                frontintakeleft.setPower(-1);
+                frontintakeright.setPower(-1);
             }
             else{
                 corehexmotorleft.setPower(0);
                 corehexmotorright.setPower(0);
-//                frontintakeleft.setPower(0);
-//                frontintakeright.setPower(0);
+                frontintakeleft.setPower(0);
+                frontintakeright.setPower(0);
+            }
+
+            if (gamepad2.dpad_up){
+                foundation.setPower(0.5);
+            }
+            else if (gamepad2.dpad_down){
+                foundation.setPower(-0.5);
+            }
+            else{
+                foundation.setPower(0);
             }
         }
     }
