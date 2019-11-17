@@ -114,7 +114,7 @@ public abstract class Encoders359 extends LinearOpMode{
         motor1.setPower(-power);
         motor2.setPower(power);
         motor3.setPower(power);
-        motor4.setPower(-.5 * power);
+        motor4.setPower(-power);
 
         //Set to RUN_TO_POSITION mode
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);

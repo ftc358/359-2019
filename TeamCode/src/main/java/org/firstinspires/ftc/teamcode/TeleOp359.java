@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class TeleOp359 extends LinearOpMode {
@@ -72,14 +71,14 @@ public class TeleOp359 extends LinearOpMode {
             if (gamepad2.left_bumper){
                 corehexmotorleft.setPower(0.5);
                 corehexmotorright.setPower(0.5);
-                frontintakeleft.setPower(1);
-                frontintakeright.setPower(1);
+                frontintakeleft.setPower(0.5);
+                frontintakeright.setPower(0.5);
             }
             else if (gamepad2.right_bumper){
                 corehexmotorleft.setPower(-0.5);
                 corehexmotorright.setPower(-0.5);
-                frontintakeleft.setPower(-1);
-                frontintakeright.setPower(-1);
+                frontintakeleft.setPower(-0.5);
+                frontintakeright.setPower(-0.5);
             }
             else{
                 corehexmotorleft.setPower(0);
