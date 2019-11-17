@@ -57,6 +57,8 @@ public class Auto359BlueStone extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("going into state", state359);
+            telemetry.addData("position3", motor1.getCurrentPosition());
+            telemetry.addData("position4", motor2.getCurrentPosition());
             telemetry.addData("position3", motor3.getCurrentPosition());
             telemetry.addData("position4", motor4.getCurrentPosition());
             telemetry.update();
@@ -70,52 +72,29 @@ public class Auto359BlueStone extends LinearOpMode {
                     telemetry.update();
                     state359 = state.STOP;
 
-//                case DRIVE:
-//                    if (detected == 1) {
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 2500);
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, 3000);
-//
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, -3000);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, -1000);   //Turn around the stone
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, -1000);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 5000);   //Push the stone over the line
-//                    }
-//                    if (detected == 2) {
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 2500);
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, 3000);
-//
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, -2000);
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, -2500);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 1000);    //Turn around the stone
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, -1000);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 4000);    //Push the stone over the line
-//                    }
-//                    if (detected == 3) {
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 2500);
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, 3000);
-//
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, -2000);
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, -2500);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 1000);    //Turn around the stone
-////                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, -1000);
-////                        Encoders359.Drift(motor1, motor2, motor3, motor4, 0.25, 3500);    //Push the stone over the line
-//                    }
-//                    state359 = state.PARK;
-//
-//                case PARK:
-//                    if (detected == 2) {
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
-//                    }
-//                    if (detected == 2) {
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
-//                    }
-//                    if (detected == 3) {
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
-//                    }
-//                    state359 = state.STOP;
+                case DRIVE:
+                    if (detected == 1) {
+
+                    }
+                    if (detected == 2) {
+
+                    }
+                    if (detected == 3) {
+
+                    }
+                    state359 = state.PARK;
+
+                case PARK:
+                    if (detected == 1) {
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                    }
+                    if (detected == 2) {
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                    }
+                    if (detected == 3) {
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                    }
+                    state359 = state.STOP;
 
                 case STOP:
                     motor1.setPower(0);

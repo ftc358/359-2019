@@ -19,6 +19,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Autonomous
 public class Auto359RedStone extends LinearOpMode {
+
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -56,6 +57,8 @@ public class Auto359RedStone extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("going into state", state359);
+            telemetry.addData("position3", motor1.getCurrentPosition());
+            telemetry.addData("position4", motor2.getCurrentPosition());
             telemetry.addData("position3", motor3.getCurrentPosition());
             telemetry.addData("position4", motor4.getCurrentPosition());
             telemetry.update();
@@ -69,46 +72,29 @@ public class Auto359RedStone extends LinearOpMode {
                     telemetry.update();
                     state359 = state.STOP;
 
-//                case DRIVE:
-//                    if (detected == 1){
-//                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2000);
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-////                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-3000);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,1000);   //Turn around the stone
-////                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1000);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-5000);   //Push the stone over the line
-//                    }
-//                    if (detected == 2){
-//                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2000);
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,2000);
-////                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2500);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-1000);    //Turn around the stone
-////                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1000);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-4000);    //Push the stone over the line
-//                    }
-//                    if (detected == 3){
-//                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2000);
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-2000);
-////                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-2500);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-1000);    //Turn around the stone
-////                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,-1000);
-////                        Encoders359.Drift(motor1,motor2,motor3,motor4,0.25,-3500);    //Push the stone over the line
-//                    }
-//                    state359 = state.PARK;
-//
-//                case PARK:
-//                    if (detected == 1){
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
-//                    }
-//                    if (detected == 2){
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
-//                    }
-//                    if (detected == 3){
-//                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
-//                    }
-//                    state359 = state.STOP;
+                case DRIVE:
+                    if (detected == 1) {
+
+                    }
+                    if (detected == 2) {
+
+                    }
+                    if (detected == 3) {
+
+                    }
+                    state359 = state.PARK;
+
+                case PARK:
+                    if (detected == 1) {
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                    }
+                    if (detected == 2) {
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                    }
+                    if (detected == 3) {
+                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                    }
+                    state359 = state.STOP;
 
                 case STOP:
                     motor1.setPower(0);
@@ -121,7 +107,7 @@ public class Auto359RedStone extends LinearOpMode {
         }
     }
 
-    private void initTfod() {
+    private void initTfod () {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
@@ -130,7 +116,7 @@ public class Auto359RedStone extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
-    private void initVuforiaThingy() {
+    private void initVuforiaThingy () {
         /**
          * Webcam Initialization
          */
@@ -147,7 +133,7 @@ public class Auto359RedStone extends LinearOpMode {
         }
     }
 
-    private int lookForwardAndCheck() {
+    private int lookForwardAndCheck () {
         int position = 0;
         initVuforiaThingy();
 
@@ -186,24 +172,24 @@ public class Auto359RedStone extends LinearOpMode {
                                 skystonePosition = (int) recognition.getLeft();
 
                                 if (skystonePosition < THRESHOLD) {
-                                    position = 2;
+                                    position = 1;
                                 } else if (skystonePosition > THRESHOLD) {
-                                    position = 3;
+                                    position = 2;
                                 }
 
                             } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
                                 stonePosition = (int) recognition.getLeft();
                                 if (stonePosition < THRESHOLD) {
-                                    position = 3;
-                                } else if (stonePosition > THRESHOLD) {
                                     position = 2;
+                                } else if (stonePosition > THRESHOLD) {
+                                    position = 1;
                                 }
                             }
                         }
                     } else {
                         //This means that we have not detected a Skystone, so the Skystone is
                         // probably at position 3
-                        position = 1;
+                        position = 3;
                     }
                 }
             }
@@ -215,21 +201,5 @@ public class Auto359RedStone extends LinearOpMode {
 
         DETECT, DRIVE, PARK, STOP
 
-    }
-
-    private void forwardWithOneMotor(DcMotor motor, double power, int distance) {
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setTargetPosition(distance);
-        motor.setPower(-power);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (motor.isBusy()) {
-            telemetry.addData("targetPosition", motor.getTargetPosition());
-            telemetry.addData("isBusy", motor.isBusy());
-            telemetry.addData("power", motor.getPower());
-            telemetry.addData("currentPosition", motor.getCurrentPosition());
-            telemetry.addData("mode", motor.getMode());
-            telemetry.update();
-        }
-        motor.setPower(0);
     }
 }
