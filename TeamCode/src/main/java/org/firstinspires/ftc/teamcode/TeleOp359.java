@@ -87,6 +87,9 @@ public class TeleOp359 extends LinearOpMode {
                 frontintakeright.setPower(0);
             }
 
+            /**
+             *Foundation mechanism
+             */
             if (gamepad2.dpad_up){
                 foundation.setPower(0.5);
             }

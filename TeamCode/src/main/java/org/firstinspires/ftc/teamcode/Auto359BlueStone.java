@@ -33,7 +33,7 @@ public class Auto359BlueStone extends LinearOpMode {
     state state359;
 
     DcMotor motor1, motor2, motor3, motor4;
-    CRServo foundation;
+//    CRServo foundation;
 
     public void runOpMode() throws InterruptedException {
 
@@ -41,7 +41,7 @@ public class Auto359BlueStone extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
-        foundation = hardwareMap.crservo.get("foundation");
+//        foundation = hardwareMap.crservo.get("foundation");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,8 +57,8 @@ public class Auto359BlueStone extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("going into state", state359);
-            telemetry.addData("position3", motor1.getCurrentPosition());
-            telemetry.addData("position4", motor2.getCurrentPosition());
+            telemetry.addData("position1", motor1.getCurrentPosition());
+            telemetry.addData("position2", motor2.getCurrentPosition());
             telemetry.addData("position3", motor3.getCurrentPosition());
             telemetry.addData("position4", motor4.getCurrentPosition());
             telemetry.update();
@@ -66,10 +66,17 @@ public class Auto359BlueStone extends LinearOpMode {
             switch (state359) {
                 case DETECT:
 
-                    Encoders359.Forward(motor1,motor1,motor3,motor4,0.25,4000);
-                    detected = lookForwardAndCheck();
+                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+                    sleep(1000);
+
+                    Encoders359.Strafe(motor1,motor2,motor3,motor4,0.25,2000);
+                    sleep(1000);
+
+//                    detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
+                    sleep(5000);
+
                     state359 = state.STOP;
 
                 case DRIVE:
@@ -82,7 +89,7 @@ public class Auto359BlueStone extends LinearOpMode {
                     if (detected == 3) {
 
                     }
-                    state359 = state.PARK;
+                    state359 = state.STOP;
 
                 case PARK:
                     if (detected == 1) {
@@ -107,7 +114,7 @@ public class Auto359BlueStone extends LinearOpMode {
         }
     }
 
-        private void initTfod () {
+    private void initTfod () {
             int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
@@ -116,24 +123,24 @@ public class Auto359BlueStone extends LinearOpMode {
             tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
         }
 
-        private void initVuforiaThingy () {
-            /**
-             * Webcam Initialization
-             */
-            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-            parameters.vuforiaLicenseKey = VUFORIA_KEY;
-            parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+    private void initVuforiaThingy () {
+        /**
+         * Webcam Initialization
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 //        parameters.cameraDirection = CAMERA_CHOICE;
-            vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-            if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-                initTfod();
-            } else {
-                telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-            }
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod();
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
+    }
 
-        private int lookForwardAndCheck () {
+    private int lookForwardAndCheck () {
             int position = 0;
             initVuforiaThingy();
 

@@ -33,7 +33,7 @@ public class Auto359RedStone extends LinearOpMode {
     state state359;
 
     DcMotor motor1, motor2, motor3, motor4;
-    CRServo foundation;
+//    CRServo foundation;
 
     public void runOpMode() throws InterruptedException {
 
@@ -41,7 +41,7 @@ public class Auto359RedStone extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
-        foundation = hardwareMap.crservo.get("foundation");
+//        foundation = hardwareMap.crservo.get("foundation");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,19 +57,23 @@ public class Auto359RedStone extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("going into state", state359);
-            telemetry.addData("position3", motor1.getCurrentPosition());
-            telemetry.addData("position4", motor2.getCurrentPosition());
+            telemetry.addData("position1", motor1.getCurrentPosition());
+            telemetry.addData("position2", motor2.getCurrentPosition());
             telemetry.addData("position3", motor3.getCurrentPosition());
             telemetry.addData("position4", motor4.getCurrentPosition());
             telemetry.update();
 
             switch (state359) {
                 case DETECT:
-
                     Encoders359.Forward(motor1,motor1,motor3,motor4,0.25,4000);
+                    Encoders359.Turn(motor1,motor2,motor3,motor4,0.25,4000);
+
                     detected = lookForwardAndCheck();
+
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
+                    sleep(5000);
+
                     state359 = state.STOP;
 
                 case DRIVE:
