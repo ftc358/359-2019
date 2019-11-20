@@ -56,12 +56,12 @@ public class Auto359BlueStone extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            telemetry.addData("going into state", state359);
-            telemetry.addData("position1", motor1.getCurrentPosition());
-            telemetry.addData("position2", motor2.getCurrentPosition());
-            telemetry.addData("position3", motor3.getCurrentPosition());
-            telemetry.addData("position4", motor4.getCurrentPosition());
-            telemetry.update();
+//            telemetry.addData("going into state", state359);
+//            telemetry.addData("position1", motor1.getCurrentPosition());
+//            telemetry.addData("position2", motor2.getCurrentPosition());
+//            telemetry.addData("position3", motor3.getCurrentPosition());
+//            telemetry.addData("position", Bob.getCurrentPosition());
+//            telemetry.update();
 
             switch (state359) {
                 case DETECT:
@@ -73,9 +73,8 @@ public class Auto359BlueStone extends LinearOpMode {
                     sleep(1000);
 
 //                    detected = lookForwardAndCheck();
-                    telemetry.addData("position of the skystone", detected);
-                    telemetry.update();
-                    sleep(5000);
+//                    telemetry.addData("position of the skystone", detected);
+//                    telemetry.update();
 
                     state359 = state.STOP;
 
@@ -93,13 +92,13 @@ public class Auto359BlueStone extends LinearOpMode {
 
                 case PARK:
                     if (detected == 1) {
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, -500);
                     }
                     if (detected == 2) {
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, -500);
                     }
                     if (detected == 3) {
-                        Encoders359.Forward(motor1,motor2,motor3,motor4,0.5,-500);
+                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, -500);
                     }
                     state359 = state.STOP;
 
@@ -114,16 +113,16 @@ public class Auto359BlueStone extends LinearOpMode {
         }
     }
 
-    private void initTfod () {
-            int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
-            tfodParameters.minimumConfidence = 0.8;
-            tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-            tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-        }
+        tfodParameters.minimumConfidence = 0.8;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
 
-    private void initVuforiaThingy () {
+    private void initVuforiaThingy() {
         /**
          * Webcam Initialization
          */
@@ -140,69 +139,69 @@ public class Auto359BlueStone extends LinearOpMode {
         }
     }
 
-    private int lookForwardAndCheck () {
-            int position = 0;
-            initVuforiaThingy();
+    private int lookForwardAndCheck() {
+        int position = 0;
+        initVuforiaThingy();
 
-            /**
-             * position = 1 is Skystone left, 2 is middle, and 3 is right
-             */
+        /**
+         * position = 1 is Skystone left, 2 is middle, and 3 is right
+         */
 
-            if (tfod != null) {
-                tfod.activate();
-            } else {
-                return 0;
+        if (tfod != null) {
+            tfod.activate();
+        } else {
+            return 0;
+        }
+
+        // getUpdatedRecognitions() will return null if no new information is available since
+        // the last time that call was made.
+        while (position == 0) {
+            updatedRecognitions = tfod.getUpdatedRecognitions();
+            int maxSize = 0;
+            for (int i = 0; i < 50; i++) {
+                List<Recognition> newRecognitions = tfod.getUpdatedRecognitions();
+                if (newRecognitions != null && newRecognitions.size() > maxSize) {
+                    updatedRecognitions = newRecognitions;
+                    maxSize = newRecognitions.size();
+                }
+                sleep(10);
             }
 
-            // getUpdatedRecognitions() will return null if no new information is available since
-            // the last time that call was made.
-            while (position == 0) {
-                updatedRecognitions = tfod.getUpdatedRecognitions();
-                int maxSize = 0;
-                for (int i = 0; i < 50; i++) {
-                    List<Recognition> newRecognitions = tfod.getUpdatedRecognitions();
-                    if (newRecognitions != null && newRecognitions.size() > maxSize) {
-                        updatedRecognitions = newRecognitions;
-                        maxSize = newRecognitions.size();
-                    }
-                    sleep(10);
-                }
+            if (updatedRecognitions != null) {
+                if (updatedRecognitions.size() == 2) {
+                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
+                        int THRESHOLD = 200;
+                        int skystonePosition;
+                        int stonePosition;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
+                                skystonePosition = (int) recognition.getLeft();
 
-                if (updatedRecognitions != null) {
-                    if (updatedRecognitions.size() == 2) {
-                        if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
-                            int THRESHOLD = 200;
-                            int skystonePosition;
-                            int stonePosition;
-                            for (Recognition recognition : updatedRecognitions) {
-                                if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
-                                    skystonePosition = (int) recognition.getLeft();
+                                if (skystonePosition < THRESHOLD) {
+                                    position = 1;
+                                } else if (skystonePosition > THRESHOLD) {
+                                    position = 2;
+                                }
 
-                                    if (skystonePosition < THRESHOLD) {
-                                        position = 1;
-                                    } else if (skystonePosition > THRESHOLD) {
-                                        position = 2;
-                                    }
-
-                                } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
-                                    stonePosition = (int) recognition.getLeft();
-                                    if (stonePosition < THRESHOLD) {
-                                        position = 2;
-                                    } else if (stonePosition > THRESHOLD) {
-                                        position = 1;
-                                    }
+                            } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
+                                stonePosition = (int) recognition.getLeft();
+                                if (stonePosition < THRESHOLD) {
+                                    position = 2;
+                                } else if (stonePosition > THRESHOLD) {
+                                    position = 1;
                                 }
                             }
-                        } else {
-                            //This means that we have not detected a Skystone, so the Skystone is
-                            // probably at position 3
-                            position = 3;
                         }
+                    } else {
+                        //This means that we have not detected a Skystone, so the Skystone is
+                        // probably at position 3
+                        position = 3;
                     }
                 }
             }
-            return position;
         }
+        return position;
+    }
 
     enum state {
 

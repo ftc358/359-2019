@@ -44,17 +44,6 @@ public abstract class Encoders359 extends LinearOpMode{
         motord.setPower(0);
     }
 
-    public static void forwardWithOneMotor(DcMotor motor, double power, int distance) {
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setTargetPosition(distance);
-        motor.setPower(-power);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (motor.isBusy()) {
-
-        }
-        motor.setPower(0);
-    }
-
     public static void Turn(DcMotor motora, DcMotor motorb, DcMotor motorc, DcMotor motord, double power, int distance) {
 
         //positive distance is turning left

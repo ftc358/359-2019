@@ -11,9 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class TeleOp359 extends LinearOpMode {
 
     DcMotor motor1, motor2, motor3, motor4;
-    DcMotor frontintakeleft, frontintakeright;
-    DcMotor corehexmotorleft, corehexmotorright;
-    CRServo foundation;
+//    DcMotor frontintakeleft, frontintakeright;
+//    DcMotor corehexmotorleft, corehexmotorright;
+//    CRServo foundation;
 
     public void runOpMode() throws InterruptedException {
 
@@ -21,11 +21,11 @@ public class TeleOp359 extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
-        corehexmotorleft = hardwareMap.dcMotor.get("chleft");
-        corehexmotorright = hardwareMap.dcMotor.get("chright");
-        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
-        frontintakeright = hardwareMap.dcMotor.get("frontright");
-        foundation = hardwareMap.crservo.get("foundation");
+//        corehexmotorleft = hardwareMap.dcMotor.get("chleft");
+//        corehexmotorright = hardwareMap.dcMotor.get("chright");
+//        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
+//        frontintakeright = hardwareMap.dcMotor.get("frontright");
+//        foundation = hardwareMap.crservo.get("foundation");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -34,7 +34,7 @@ public class TeleOp359 extends LinearOpMode {
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
+//        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -68,37 +68,37 @@ public class TeleOp359 extends LinearOpMode {
             /**
              *Intake Mechanism
              */
-            if (gamepad2.left_bumper){
-                corehexmotorleft.setPower(0.5);
-                corehexmotorright.setPower(0.5);
-                frontintakeleft.setPower(0.5);
-                frontintakeright.setPower(0.5);
-            }
-            else if (gamepad2.right_bumper){
-                corehexmotorleft.setPower(-0.5);
-                corehexmotorright.setPower(-0.5);
-                frontintakeleft.setPower(-0.5);
-                frontintakeright.setPower(-0.5);
-            }
-            else{
-                corehexmotorleft.setPower(0);
-                corehexmotorright.setPower(0);
-                frontintakeleft.setPower(0);
-                frontintakeright.setPower(0);
-            }
-
-            /**
-             *Foundation mechanism
-             */
-            if (gamepad2.dpad_up){
-                foundation.setPower(0.5);
-            }
-            else if (gamepad2.dpad_down){
-                foundation.setPower(-0.5);
-            }
-            else{
-                foundation.setPower(0);
-            }
+//            if (gamepad2.left_bumper){
+//                corehexmotorleft.setPower(0.5);
+//                corehexmotorright.setPower(0.5);
+//                frontintakeleft.setPower(0.5);
+//                frontintakeright.setPower(0.5);
+//            }
+//            else if (gamepad2.right_bumper){
+//                corehexmotorleft.setPower(-0.5);
+//                corehexmotorright.setPower(-0.5);
+//                frontintakeleft.setPower(-0.5);
+//                frontintakeright.setPower(-0.5);
+//            }
+//            else{
+//                corehexmotorleft.setPower(0);
+//                corehexmotorright.setPower(0);
+//                frontintakeleft.setPower(0);
+//                frontintakeright.setPower(0);
+//            }
+//
+//            /**
+//             *Foundation mechanism
+//             */
+//            if (gamepad2.dpad_up){
+//                foundation.setPower(0.5);
+//            }
+//            else if (gamepad2.dpad_down){
+//                foundation.setPower(-0.5);
+//            }
+//            else{
+//                foundation.setPower(0);
+//            }
         }
     }
 }
