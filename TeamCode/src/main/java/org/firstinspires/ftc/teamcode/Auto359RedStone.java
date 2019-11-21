@@ -66,7 +66,7 @@ public class Auto359RedStone extends LinearOpMode {
             switch (state359) {
                 case DETECT:
 
-                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,1500);
 
                     detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
@@ -175,24 +175,24 @@ public class Auto359RedStone extends LinearOpMode {
                                 skystonePosition = (int) recognition.getLeft();
 
                                 if (skystonePosition < THRESHOLD) {
-                                    position = 1;
-                                } else if (skystonePosition > THRESHOLD) {
                                     position = 2;
+                                } else if (skystonePosition > THRESHOLD) {
+                                    position = 3;
                                 }
 
                             } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
                                 stonePosition = (int) recognition.getLeft();
                                 if (stonePosition < THRESHOLD) {
-                                    position = 2;
+                                    position = 3;
                                 } else if (stonePosition > THRESHOLD) {
-                                    position = 1;
+                                    position = 2;
                                 }
                             }
                         }
                     } else {
                         //This means that we have not detected a Skystone, so the Skystone is
                         // probably at position 3
-                        position = 3;
+                        position = 1;
                     }
                 }
             }

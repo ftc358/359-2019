@@ -65,7 +65,7 @@ public class Auto359BlueStone extends LinearOpMode {
             switch (state359) {
                 case DETECT:
 
-                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
+                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,1500);
 
                     detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
