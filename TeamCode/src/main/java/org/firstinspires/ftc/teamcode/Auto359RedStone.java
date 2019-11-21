@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,15 +14,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
-
 @Autonomous
 public class Auto359RedStone extends LinearOpMode {
 
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
-    //    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -55,18 +51,10 @@ public class Auto359RedStone extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
-            telemetry.addData("going into state", state359);
-            telemetry.addData("position1", motor1.getCurrentPosition());
-            telemetry.addData("position2", motor2.getCurrentPosition());
-            telemetry.addData("position3", motor3.getCurrentPosition());
-            telemetry.addData("position4", motor4.getCurrentPosition());
-            telemetry.update();
-
             switch (state359) {
                 case DETECT:
 
-                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,1500);
+                    Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,1800);
 
                     detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
