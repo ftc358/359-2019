@@ -23,9 +23,9 @@ public abstract class Encoders359 extends LinearOpMode{
 
         //Set Drive Power
         motora.setPower(-power);
-        motorb.setPower(power);
+        motorb.setPower(0.5 * power);
         motorc.setPower(power);
-        motord.setPower(-.5 * power);
+        motord.setPower(-power);
 
         //Set to RUN_TO_POSITION mode
         motora.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -62,9 +62,9 @@ public abstract class Encoders359 extends LinearOpMode{
 
         //Set Drive Power
         motora.setPower(-power);
-        motorb.setPower(power);
+        motorb.setPower(0.5 * power);
         motorc.setPower(power);
-        motord.setPower(-.5 * power);
+        motord.setPower(-power);
 
         //Set to RUN_TO_POSITION mode
         motora.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -101,9 +101,9 @@ public abstract class Encoders359 extends LinearOpMode{
 
         //Set Drive Power
         motora.setPower(-power);
-        motorb.setPower(power);
+        motorb.setPower(0.5 * power);
         motorc.setPower(power);
-        motord.setPower(-.5 * power);
+        motord.setPower(-power);
 
         //Set to RUN_TO_POSITION mode
         motora.setMode(DcMotor.RunMode.RUN_TO_POSITION);

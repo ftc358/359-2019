@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -33,7 +32,7 @@ public class Auto359BlueStone extends LinearOpMode {
     state state359;
 
     DcMotor motor1, motor2, motor3, motor4;
-//    CRServo foundation;
+    CRServo foundation;
 
     public void runOpMode() throws InterruptedException {
 
@@ -41,7 +40,7 @@ public class Auto359BlueStone extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
-//        foundation = hardwareMap.crservo.get("foundation");
+        foundation = hardwareMap.crservo.get("foundation");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -56,25 +55,22 @@ public class Auto359BlueStone extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-//            telemetry.addData("going into state", state359);
-//            telemetry.addData("position1", motor1.getCurrentPosition());
-//            telemetry.addData("position2", motor2.getCurrentPosition());
-//            telemetry.addData("position3", motor3.getCurrentPosition());
-//            telemetry.addData("position", Bob.getCurrentPosition());
-//            telemetry.update();
+            telemetry.addData("going into state", state359);
+            telemetry.addData("position1", motor1.getCurrentPosition());
+            telemetry.addData("position2", motor2.getCurrentPosition());
+            telemetry.addData("position3", motor3.getCurrentPosition());
+            telemetry.addData("position4", motor4.getCurrentPosition());
+            telemetry.update();
 
             switch (state359) {
                 case DETECT:
 
                     Encoders359.Forward(motor1,motor2,motor3,motor4,0.25,2000);
-                    sleep(1000);
 
-                    Encoders359.Strafe(motor1,motor2,motor3,motor4,0.25,2000);
-                    sleep(1000);
-
-//                    detected = lookForwardAndCheck();
-//                    telemetry.addData("position of the skystone", detected);
-//                    telemetry.update();
+                    detected = lookForwardAndCheck();
+                    telemetry.addData("position of the skystone", detected);
+                    telemetry.update();
+                    sleep(5000);
 
                     state359 = state.STOP;
 
@@ -92,13 +88,13 @@ public class Auto359BlueStone extends LinearOpMode {
 
                 case PARK:
                     if (detected == 1) {
-                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, -500);
+
                     }
                     if (detected == 2) {
-                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, -500);
+
                     }
                     if (detected == 3) {
-                        Encoders359.Forward(motor1, motor2, motor3, motor4, 0.5, -500);
+
                     }
                     state359 = state.STOP;
 

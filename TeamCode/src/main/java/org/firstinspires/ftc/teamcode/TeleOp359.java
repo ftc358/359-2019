@@ -13,7 +13,7 @@ public class TeleOp359 extends LinearOpMode {
     DcMotor motor1, motor2, motor3, motor4;
 //    DcMotor frontintakeleft, frontintakeright;
 //    DcMotor corehexmotorleft, corehexmotorright;
-//    CRServo foundation;
+    CRServo foundation;
 
     public void runOpMode() throws InterruptedException {
 
@@ -25,7 +25,7 @@ public class TeleOp359 extends LinearOpMode {
 //        corehexmotorright = hardwareMap.dcMotor.get("chright");
 //        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
 //        frontintakeright = hardwareMap.dcMotor.get("frontright");
-//        foundation = hardwareMap.crservo.get("foundation");
+        foundation = hardwareMap.crservo.get("foundation");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -65,9 +65,9 @@ public class TeleOp359 extends LinearOpMode {
             telemetry.addData("position4", motor4.getCurrentPosition());
             telemetry.update();
 
-            /**
-             *Intake Mechanism
-             */
+//            /**
+//             *Intake Mechanism
+//             */
 //            if (gamepad2.left_bumper){
 //                corehexmotorleft.setPower(0.5);
 //                corehexmotorright.setPower(0.5);
@@ -87,18 +87,18 @@ public class TeleOp359 extends LinearOpMode {
 //                frontintakeright.setPower(0);
 //            }
 //
-//            /**
-//             *Foundation mechanism
-//             */
-//            if (gamepad2.dpad_up){
-//                foundation.setPower(0.5);
-//            }
-//            else if (gamepad2.dpad_down){
-//                foundation.setPower(-0.5);
-//            }
-//            else{
-//                foundation.setPower(0);
-//            }
+            /**
+             *Foundation mechanism
+             */
+            if (gamepad1.dpad_up){
+                foundation.setPower(0.5);
+            }
+            else if (gamepad1.dpad_down){
+                foundation.setPower(-0.5);
+            }
+            else{
+                foundation.setPower(0);
+            }
         }
     }
 }
