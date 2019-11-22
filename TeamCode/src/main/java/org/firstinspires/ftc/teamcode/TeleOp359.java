@@ -12,7 +12,7 @@ public class TeleOp359 extends LinearOpMode {
     DcMotor motor1, motor2, motor3, motor4;
 //    DcMotor frontintakeleft, frontintakeright;
 //    DcMotor corehexmotorleft, corehexmotorright;
-    CRServo foundation;
+    CRServo foundation, skystoneMove;
 
     public void runOpMode() throws InterruptedException {
 
@@ -25,6 +25,7 @@ public class TeleOp359 extends LinearOpMode {
 //        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
 //        frontintakeright = hardwareMap.dcMotor.get("frontright");
         foundation = hardwareMap.crservo.get("foundation");
+//        skystoneMove = hardwareMap.crservo.get("skystoneMove");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -98,6 +99,19 @@ public class TeleOp359 extends LinearOpMode {
             else{
                 foundation.setPower(0);
             }
+
+//            /**
+//             *Skystone Move just in case there're problems during auto
+//             */
+//            if (gamepad1.a) {
+//                skystoneMove.setPower(.5);
+//            }
+//            else if (gamepad1.b){
+//                skystoneMove.setPower(-.5);
+//            }
+//            else{
+//                skystoneMove.setPower(0);
+//            }
         }
     }
 }

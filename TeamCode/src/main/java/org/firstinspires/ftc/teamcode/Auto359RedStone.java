@@ -29,7 +29,7 @@ public class Auto359RedStone extends LinearOpMode {
     state state359;
 
     DcMotor motor1, motor2, motor3, motor4;
-    CRServo foundation;
+    CRServo foundation, skystoneMove;
 
     public void runOpMode() throws InterruptedException {
 
@@ -38,6 +38,7 @@ public class Auto359RedStone extends LinearOpMode {
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
         foundation = hardwareMap.crservo.get("foundation");
+//        skystoneMove = hardwareMap.crservo.get("skystoneMove");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -71,6 +72,8 @@ public class Auto359RedStone extends LinearOpMode {
 
                     }
                     if (detected == 3) {
+
+                        Encoders359.Strafe(motor1,motor2,motor3,motor4,0.25,1500);
 
                     }
                     state359 = state.PARK;

@@ -36,6 +36,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
     private OpenGLMatrix lastLocation = null;
     private VuforiaLocalizer vuforia = null;
     WebcamName webcamName = null;
+    state state359;
 
     private boolean targetVisible = false;
     private float phoneXRotate    = 0;
@@ -44,14 +45,41 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
     private int detected = 0;
 
     @Override public void runOpMode() {
-
        initINIT();
 
        waitForStart();
 
-       detected = Vuforia359();
-       telemetry.addData("What is detected", detected);
-       telemetry.update();
+       while (opModeIsActive()){
+           switch (state359){
+               case DETECT:
+                   detected = Vuforia359();
+                   telemetry.addData("What is detected", detected);
+                   telemetry.update();
+                   state359 = state.STOP;
+
+               case DRIVE:
+                   if (detected == 1){
+
+                   }
+                   if (detected == 2){
+
+                   }
+                   if (detected == 3){
+
+                   }
+
+                   state359 = state.PARK;
+
+               case PARK:
+
+                   state359 = state.STOP;
+
+               case STOP:
+
+                   break;
+           }
+           break;
+       }
     }
 
     private void initINIT() {
@@ -156,10 +184,20 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
                 int THRESHOLD = 0;
                 if (translation.get(1) / mmPerInch < THRESHOLD) {
                     position = 1;
-                }else if (translation.get(1) / mmPerInch > THRESHOLD){
+                }
+                else if (translation.get(1) / mmPerInch > THRESHOLD){
                     position = 2;
+                }
+                else{
+                    position = 3;
                 }
             }
         return position;
+    }
+
+    enum state{
+
+        DETECT, DRIVE, PARK, STOP
+
     }
 }

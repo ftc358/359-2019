@@ -23,7 +23,7 @@ public abstract class Encoders359 extends LinearOpMode{
 
         //Set Drive Power
         motora.setPower(-power);
-        motorb.setPower(0.4 * power);
+        motorb.setPower(.35 * power);
         motorc.setPower(power);
         motord.setPower(-power);
 
