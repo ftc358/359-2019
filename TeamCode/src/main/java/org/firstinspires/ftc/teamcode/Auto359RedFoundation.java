@@ -20,26 +20,9 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Disabled
 @Autonomous
-public class Auto359RedFoundation extends LinearOpMode {
-
-    DcMotor motor1, motor2, motor3, motor4;
-    CRServo foundation;
+public class Auto359RedFoundation extends RobotMain359 {
 
     public void runOpMode() throws InterruptedException {
-
-        motor1 = hardwareMap.dcMotor.get("motor1");
-        motor2 = hardwareMap.dcMotor.get("motor2");
-        motor3 = hardwareMap.dcMotor.get("motor3");
-        motor4 = hardwareMap.dcMotor.get("motor4");
-        foundation = hardwareMap.crservo.get("foundation");
-
-        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
-        motor3.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
@@ -47,14 +30,14 @@ public class Auto359RedFoundation extends LinearOpMode {
             foundation.setPower(1);
             Thread.sleep(1000);
 
-            Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, -3000);
+            forward(0.25, -3000);
 
             foundation.setPower(-1);
             Thread.sleep(1000);
 
-            Encoders359.Forward(motor1, motor1, motor3, motor4, 0.25, 3000);
-            Encoders359.Turn(motor1, motor2, motor3, motor4, 0.25, 1500);
-            Encoders359.Forward(motor1, motor2, motor3, motor4, 0.25, 4000);
+            forward(0.25, 3000);
+            turn(0.25, 1500);
+            forward(0.25, 4000);
 
             break;
         }

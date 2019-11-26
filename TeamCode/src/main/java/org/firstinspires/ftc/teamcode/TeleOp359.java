@@ -7,34 +7,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
-public class TeleOp359 extends LinearOpMode {
-
-    DcMotor motor1, motor2, motor3, motor4;
-//    DcMotor frontintakeleft, frontintakeright;
-//    DcMotor corehexmotorleft, corehexmotorright;
-    CRServo foundation, skystoneMove;
+public class TeleOp359 extends RobotMain359 {
 
     public void runOpMode() throws InterruptedException {
-
-        motor1 = hardwareMap.dcMotor.get("motor1");
-        motor2 = hardwareMap.dcMotor.get("motor2");
-        motor3 = hardwareMap.dcMotor.get("motor3");
-        motor4 = hardwareMap.dcMotor.get("motor4");
-//        corehexmotorleft = hardwareMap.dcMotor.get("chleft");
-//        corehexmotorright = hardwareMap.dcMotor.get("chright");
-//        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
-//        frontintakeright = hardwareMap.dcMotor.get("frontright");
-        foundation = hardwareMap.crservo.get("foundation");
-//        skystoneMove = hardwareMap.crservo.get("skystoneMove");
-
-        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
-        motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-//        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
+        initialize();
 
         waitForStart();
         while (opModeIsActive()) {
