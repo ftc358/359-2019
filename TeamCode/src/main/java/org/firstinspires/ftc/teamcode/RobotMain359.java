@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public abstract class RobotMain359 extends LinearOpMode {
 
+    //Vuforia
     public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     public static final String LABEL_FIRST_ELEMENT = "Stone";
     public static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -23,11 +26,18 @@ public abstract class RobotMain359 extends LinearOpMode {
     public TFObjectDetector tfod;
     List<Recognition> updatedRecognitions;
 
+    //Motors and sensors
     protected DcMotor motor1, motor2, motor3, motor4;
-//    DcMotor frontintakeleft, frontintakeright;
-//    DcMotor corehexmotorleft, corehexmotorright;
+//    protected DcMotor frontintakeleft, frontintakeright;
+//    protected DcMotor corehexmotorleft, corehexmotorright;
     protected CRServo foundation, skystoneMove;
+    protected BNO055IMU my_imu;
+    protected DistanceSensor my_Distancesensor;
 
+    /**
+     * Initializing settings
+     */
+    //TODO: Think of a way to add the initialize function in each auto, or put it into another function
     public void initialize() throws InterruptedException {
 
         motor1 = hardwareMap.dcMotor.get("motor1");
@@ -50,6 +60,15 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
 //        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        my_imu = hardwareMap.get(BNO055IMU.class, "imu");
+        my_imu.initialize(parameters);
+
+        my_Distancesensor = hardwareMap.get(DistanceSensor.class, "ds");
     }
 
     /**
