@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public class RobotPosition359{
+public class RobotPosition359 {
     Boolean isTurn;
     private int x;
     private int y;

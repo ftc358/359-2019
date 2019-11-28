@@ -10,7 +10,7 @@ public class Auto359RedStone extends RobotMain359 {
 
     public void runOpMode() throws InterruptedException {
 
-//        initialize(new robotPosition(11, 11, 315));
+//        initialize(new );
 
         state359 = state.DETECT;
         waitForStart();

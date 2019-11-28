@@ -39,14 +39,14 @@ public abstract class RobotMain359 extends LinearOpMode {
     protected BNO055IMU my_imu;
     protected DistanceSensor my_Distancesensor;
 
-    private RobotPosition359 STARTING_POSITION;
-    private RobotPosition359 currentPosition;
+    public RobotPosition359 STARTING_POSITION;
+    public RobotPosition359 CURRENT_POSITION;
 
     /**
      * Initializing settings
      */
     //TODO: Think of a way to add the initialize function in each auto, or put it into another function
-    public void initialize() throws InterruptedException {
+    public void initializeSettings() throws InterruptedException {
 
         motor1 = hardwareMap.dcMotor.get("motor1");
         motor2 = hardwareMap.dcMotor.get("motor2");
@@ -297,9 +297,9 @@ public abstract class RobotMain359 extends LinearOpMode {
      */
     //TODO: Think of a way to make this initialize function work in an actual Opmode
     public void initialize(RobotPosition359 STARTING_POSITION) throws InterruptedException {
-        initialize();
+        initializeSettings();
         this.STARTING_POSITION = STARTING_POSITION;
-        currentPosition = STARTING_POSITION;
+        CURRENT_POSITION = STARTING_POSITION;
     }
 
     public double getAbsoluteCurrentHeading() {

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class TeleOp359 extends RobotMain359 {
 
     public void runOpMode() throws InterruptedException {
-        initialize();
+        initializeSettings();
 
         waitForStart();
         while (opModeIsActive()) {
