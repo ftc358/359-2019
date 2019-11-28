@@ -9,10 +9,15 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RobotMain359 extends LinearOpMode {
@@ -33,6 +38,9 @@ public abstract class RobotMain359 extends LinearOpMode {
     protected CRServo foundation, skystoneMove;
     protected BNO055IMU my_imu;
     protected DistanceSensor my_Distancesensor;
+
+    private RobotPosition359 STARTING_POSITION;
+    private RobotPosition359 currentPosition;
 
     /**
      * Initializing settings
@@ -282,6 +290,27 @@ public abstract class RobotMain359 extends LinearOpMode {
             }
         }
         return position;
+    }
+
+    /**
+     * imu settings
+     */
+    //TODO: Think of a way to make this initialize function work in an actual Opmode
+    public void initialize(RobotPosition359 STARTING_POSITION) throws InterruptedException {
+        initialize();
+        this.STARTING_POSITION = STARTING_POSITION;
+        currentPosition = STARTING_POSITION;
+    }
+
+    public double getAbsoluteCurrentHeading() {
+        Orientation angles = my_imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX).toAngleUnit(AngleUnit.DEGREES);
+        double absoluteHeading;
+        if (angles.firstAngle <= 0) {
+            absoluteHeading = -angles.firstAngle;
+        } else {
+            absoluteHeading = 360 - angles.firstAngle;
+        }
+        return absoluteHeading + STARTING_POSITION.getHeading();
     }
 
 }
