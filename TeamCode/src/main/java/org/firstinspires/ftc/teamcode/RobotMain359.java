@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.motors.RevRobotics40HdHexMotor;
-import com.qualcomm.hardware.motors.TetrixMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -19,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RobotMain359 extends LinearOpMode {
@@ -28,26 +24,29 @@ public abstract class RobotMain359 extends LinearOpMode {
     public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     public static final String LABEL_FIRST_ELEMENT = "Stone";
     public static final String LABEL_SECOND_ELEMENT = "Skystone";
-    public static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
+    public static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0"
+            + "iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAk"
+            + "USIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URF"
+            + "pH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh37"
+            + "4/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
-    List<Recognition> updatedRecognitions;
-
-    //Motors and sensors
-    protected DcMotor motor1, motor2, motor3, motor4;
-//    protected DcMotor frontintakeleft, frontintakeright;
-//    protected DcMotor corehexmotorleft, corehexmotorright;
-    protected CRServo foundation, skystoneMove;
-    protected BNO055IMU my_imu;
-//    protected DistanceSensor my_Distancesensor;
-
     public RobotPosition359 STARTING_POSITION;
     public RobotPosition359 CURRENT_POSITION;
+    //Motors and sensors
+    protected DcMotor motor1, motor2, motor3, motor4;
+    //    protected DcMotor frontintakeleft, frontintakeright;
+//    protected DcMotor corehexmotorleft, corehexmotorright;
+    protected CRServo foundation, skystoneMove;
+//    protected DistanceSensor my_Distancesensor;
+    protected BNO055IMU my_imu;
+    List<Recognition> updatedRecognitions;
 
     /**
      * Initializing settings
      */
-    //TODO: Think of a way to add the initialize function in each auto, or put it into another function
+    //TODO: Think of a way to add the initialize function in each auto, or put it into another
+    // function
     public void initializeSettings() throws InterruptedException {
 
         motor1 = hardwareMap.dcMotor.get("motor1");
@@ -135,7 +134,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setPower(0);
     }
 
-    public void forwardWithOneMotor(DcMotor motorBob, double power, int rotations){
+    public void forwardWithOneMotor(DcMotor motorBob, double power, int rotations) {
 //        motorBob.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBob.setTargetPosition(motorBob.getCurrentPosition() + rotations * 1000);
         motorBob.setPower(power);
@@ -240,16 +239,18 @@ public abstract class RobotMain359 extends LinearOpMode {
     /**
      * Vuforia settings
      */
-    private void initTfod () {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(
+                tfodMonitorViewId);
 
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
-    private void initVuforiaThingy () {
+    private void initVuforiaThingy() {
         /**
          * Webcam Initialization
          */
@@ -266,7 +267,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         }
     }
 
-    public int lookForwardAndCheck () {
+    public int lookForwardAndCheck() {
         int position = 0;
         initVuforiaThingy();
 
@@ -296,7 +297,8 @@ public abstract class RobotMain359 extends LinearOpMode {
 
             if (updatedRecognitions != null) {
                 if (updatedRecognitions.size() == 2) {
-                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
+                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT
+                            || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
                         int THRESHOLD = 200;
                         int skystonePosition;
                         int stonePosition;
@@ -341,7 +343,8 @@ public abstract class RobotMain359 extends LinearOpMode {
     }
 
     public double getAbsoluteCurrentHeading() {
-        Orientation angles = my_imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX).toAngleUnit(AngleUnit.DEGREES);
+        Orientation angles = my_imu.getAngularOrientation().toAxesReference(
+                AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX).toAngleUnit(AngleUnit.DEGREES);
         double absoluteHeading;
         if (angles.firstAngle <= 0) {
             absoluteHeading = -angles.firstAngle;

@@ -6,7 +6,7 @@ public class RobotPosition359 {
     private int y;
     private double heading;
 
-    public void robotPosition (int x, int y, double heading) {
+    public void robotPosition(int x, int y, double heading) {
         if (x <= 38) {
             if (y <= 38) {
                 this.x = x;

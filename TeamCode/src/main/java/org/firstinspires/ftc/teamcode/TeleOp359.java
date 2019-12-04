@@ -62,13 +62,11 @@ public class TeleOp359 extends RobotMain359 {
             /**
              *Foundation mechanism
              */
-            if (gamepad1.dpad_up){
+            if (gamepad1.dpad_up) {
                 foundation.setPower(0.5);
-            }
-            else if (gamepad1.dpad_down){
+            } else if (gamepad1.dpad_down) {
                 foundation.setPower(-0.5);
-            }
-            else{
+            } else {
                 foundation.setPower(0);
             }
 

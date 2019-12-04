@@ -3,19 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-import java.util.List;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+import java.util.List;
 
 @Disabled
 @Autonomous
@@ -24,8 +21,14 @@ public class TestTensorFlowVuforia extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
-//    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
+    //    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    private static final String VUFORIA_KEY =
+            "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ"
+                    + "+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR"
+                    + "+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo"
+                    + "+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F"
+                    + "+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374"
+                    + "/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
     List<Recognition> updatedRecognitions;
@@ -35,7 +38,8 @@ public class TestTensorFlowVuforia extends LinearOpMode {
 
     DcMotor motor1, motor2, motor3, motor4;
 
-    public static void Forward(DcMotor motor1, DcMotor motor2, DcMotor motor3, DcMotor motor4, double power, long timer) throws InterruptedException {
+    public static void Forward(DcMotor motor1, DcMotor motor2, DcMotor motor3, DcMotor motor4,
+            double power, long timer) throws InterruptedException {
         motor1.setPower(power);
         motor2.setPower(power);
         motor3.setPower(power);
@@ -68,10 +72,10 @@ public class TestTensorFlowVuforia extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            switch (state359){
+            switch (state359) {
 
                 case DETECT:
-                    Forward(motor1,motor2,motor3,motor4,0.25, 2000);
+                    Forward(motor1, motor2, motor3, motor4, 0.25, 2000);
                     detected = lookForwardAndCheck();
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
@@ -79,26 +83,26 @@ public class TestTensorFlowVuforia extends LinearOpMode {
                     break;
 
                 case DRIVE:
-                    if (detected == 1){
+                    if (detected == 1) {
 
                     }
-                    if (detected == 2){
+                    if (detected == 2) {
 
                     }
-                    if (detected == 3){
+                    if (detected == 3) {
 
                     }
                     state359 = state.PARK;
                     break;
 
                 case PARK:
-                    if (detected == 2){
+                    if (detected == 2) {
 
                     }
-                    if (detected == 2){
+                    if (detected == 2) {
 
                     }
-                    if (detected == 3){
+                    if (detected == 3) {
 
                     }
                     state359 = state.STOP;
@@ -115,8 +119,10 @@ public class TestTensorFlowVuforia extends LinearOpMode {
     }
 
     private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(
+                tfodMonitorViewId);
 
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
@@ -150,7 +156,7 @@ public class TestTensorFlowVuforia extends LinearOpMode {
 
         if (tfod != null) {
             tfod.activate();
-        }else {
+        } else {
             return 0;
         }
 
@@ -169,32 +175,32 @@ public class TestTensorFlowVuforia extends LinearOpMode {
             }
 
             if (updatedRecognitions != null) {
-                if (updatedRecognitions.size() == 2){
-                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT ||updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT){
+                if (updatedRecognitions.size() == 2) {
+                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT
+                            || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
                         int THRESHOLD = 200;
                         int skystonePosition;
                         int stonePosition;
                         for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
+                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
                                 skystonePosition = (int) recognition.getLeft();
 
-                                if (skystonePosition < THRESHOLD){
+                                if (skystonePosition < THRESHOLD) {
                                     position = 1;
-                                }else if (skystonePosition > THRESHOLD){
+                                } else if (skystonePosition > THRESHOLD) {
                                     position = 2;
                                 }
 
-                            }else if (recognition.getLabel() == LABEL_FIRST_ELEMENT){
+                            } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
                                 stonePosition = (int) recognition.getLeft();
-                                if (stonePosition < THRESHOLD){
+                                if (stonePosition < THRESHOLD) {
                                     position = 2;
-                                }else if (stonePosition > THRESHOLD){
+                                } else if (stonePosition > THRESHOLD) {
                                     position = 1;
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         //This means that we have not detected a Skystone, so the Skystone is
                         // probably at position 3
                         position = 3;
@@ -205,7 +211,7 @@ public class TestTensorFlowVuforia extends LinearOpMode {
         return position;
     }
 
-    enum state{
+    enum state {
 
         DETECT, DRIVE, PARK, STOP
 

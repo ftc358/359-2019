@@ -1,5 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -17,75 +23,76 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
-
 @Disabled
-@TeleOp(name="SKYSTONE Vuforia Nav Webcam", group ="Concept")
+@TeleOp(name = "SKYSTONE Vuforia Nav Webcam", group = "Concept")
 public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private static final boolean PHONE_IS_PORTRAIT = false  ;
-    private static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
-    private static final float mmPerInch        = 25.4f;
+    private static final boolean PHONE_IS_PORTRAIT = false;
+    private static final String VUFORIA_KEY =
+            "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ"
+                    + "+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR"
+                    + "+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo"
+                    + "+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F"
+                    + "+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374"
+                    + "/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
+    private static final float mmPerInch = 25.4f;
     private static final float stoneZ = 2.00f * mmPerInch;
-
-    private OpenGLMatrix lastLocation = null;
-    private VuforiaLocalizer vuforia = null;
     WebcamName webcamName = null;
     state state359;
-
+    private OpenGLMatrix lastLocation = null;
+    private VuforiaLocalizer vuforia = null;
     private boolean targetVisible = false;
-    private float phoneXRotate    = 0;
-    private float phoneYRotate    = 0;
-    private float phoneZRotate    = 0;
+    private float phoneXRotate = 0;
+    private float phoneYRotate = 0;
+    private float phoneZRotate = 0;
     private int detected = 0;
 
-    @Override public void runOpMode() {
-       initINIT();
+    @Override
+    public void runOpMode() {
+        initINIT();
 
-       waitForStart();
+        waitForStart();
 
-       while (opModeIsActive()){
-           switch (state359){
-               case DETECT:
-                   detected = Vuforia359();
-                   telemetry.addData("What is detected", detected);
-                   telemetry.update();
-                   state359 = state.STOP;
+        while (opModeIsActive()) {
+            switch (state359) {
+                case DETECT:
+                    detected = Vuforia359();
+                    telemetry.addData("What is detected", detected);
+                    telemetry.update();
+                    state359 = state.STOP;
 
-               case DRIVE:
-                   if (detected == 1){
+                case DRIVE:
+                    if (detected == 1) {
 
-                   }
-                   if (detected == 2){
+                    }
+                    if (detected == 2) {
 
-                   }
-                   if (detected == 3){
+                    }
+                    if (detected == 3) {
 
-                   }
+                    }
 
-                   state359 = state.PARK;
+                    state359 = state.PARK;
 
-               case PARK:
+                case PARK:
 
-                   state359 = state.STOP;
+                    state359 = state.STOP;
 
-               case STOP:
+                case STOP:
 
-                   break;
-           }
-           break;
-       }
+                    break;
+            }
+            break;
+        }
     }
 
     private void initINIT() {
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(
+                cameraMonitorViewId);
         // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -111,19 +118,24 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
 
         // Rotate the phone vertical about the X axis if it's in portrait mode
         if (PHONE_IS_PORTRAIT) {
-            phoneXRotate = 90 ;
+            phoneXRotate = 90;
         }
 
-        final float CAMERA_FORWARD_DISPLACEMENT  = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
-        final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
-        final float CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
+        final float CAMERA_FORWARD_DISPLACEMENT =
+                4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
+        final float CAMERA_VERTICAL_DISPLACEMENT =
+                8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
+        final float CAMERA_LEFT_DISPLACEMENT = 0;     // eg: Camera is ON the robot's center line
 
         OpenGLMatrix robotFromCamera = OpenGLMatrix
-                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
+                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT,
+                        CAMERA_VERTICAL_DISPLACEMENT)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate,
+                        phoneZRotate, phoneXRotate));
 
         for (VuforiaTrackable trackable : allTrackables) {
-            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
+            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(
+                    robotFromCamera, parameters.cameraDirection);
         }
 
     }
@@ -142,13 +154,16 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
 
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
-                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
                     telemetry.addData("Visible Target", trackable.getName());
                     targetVisible = true;
 
-                    // getUpdatedRobotLocation() will return null if no new information is available since
-                    // the last time that call was made, or if the trackable is not currently visible.
-                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                    // getUpdatedRobotLocation() will return null if no new information is
+                    // available since
+                    // the last time that call was made, or if the trackable is not currently
+                    // visible.
+                    OpenGLMatrix robotLocationTransform =
+                            ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
                     if (robotLocationTransform != null) {
                         lastLocation = robotLocationTransform;
                     }
@@ -160,13 +175,15 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch,
+                        translation.get(2) / mmPerInch);
 
                 // express the rotation of the robot in degrees.
-                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-            }
-            else {
+                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ,
+                        DEGREES);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+                        rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            } else {
                 telemetry.addData("Visible Target", "none");
             }
             telemetry.update();
@@ -179,23 +196,21 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         initVuforia();
         int position = 0;
 
-            while (position == 0) {
-                VectorF translation = lastLocation.getTranslation();
-                int THRESHOLD = 0;
-                if (translation.get(1) / mmPerInch < THRESHOLD) {
-                    position = 1;
-                }
-                else if (translation.get(1) / mmPerInch > THRESHOLD){
-                    position = 2;
-                }
-                else{
-                    position = 3;
-                }
+        while (position == 0) {
+            VectorF translation = lastLocation.getTranslation();
+            int THRESHOLD = 0;
+            if (translation.get(1) / mmPerInch < THRESHOLD) {
+                position = 1;
+            } else if (translation.get(1) / mmPerInch > THRESHOLD) {
+                position = 2;
+            } else {
+                position = 3;
             }
+        }
         return position;
     }
 
-    enum state{
+    enum state {
 
         DETECT, DRIVE, PARK, STOP
 
