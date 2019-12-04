@@ -12,52 +12,59 @@ public class Auto359RedStone extends RobotMain359 {
 
 //        initialize(new );
 
+        initializeSettings();
+
         state359 = state.DETECT;
         waitForStart();
 
-        while (opModeIsActive()) {
+        if (opModeIsActive()) {
             switch (state359) {
                 case DETECT:
-                    forward(0.25, 1800);
+//                    motor1.setPower(1);
+//                    motor2.setPower(1);
+//                    motor3.setPower(1);
+//                    motor4.setPower(1);
+                    forward(1, 5);
 
-                    detected = lookForwardAndCheck();
-                    telemetry.addData("position of the skystone", detected);
-                    telemetry.update();
 
-                    state359 = state.STOP;
-
-                case DRIVE:
-                    if (detected == 1) {
-
-                    }
-                    if (detected == 2) {
-
-                    }
-                    if (detected == 3) {
-
-                    }
-                    state359 = state.PARK;
-
-                case PARK:
-                    if (detected == 1) {
-
-                    }
-                    if (detected == 2) {
-
-                    }
-                    if (detected == 3) {
-
-                    }
-                    state359 = state.STOP;
-
-                case STOP:
-                    motor1.setPower(0);
-                    motor2.setPower(0);
-                    motor3.setPower(0);
-                    motor4.setPower(0);
+//                    detected = lookForwardAndCheck();
+//                    telemetry.addData("position of the skystone", detected);
+//                    telemetry.update();
+//
+//                    state359 = state.STOP;
                     break;
+//                case DRIVE:
+//                    if (detected == 1) {
+//
+//                    }
+//                    if (detected == 2) {
+//
+//                    }
+//                    if (detected == 3) {
+//
+//                    }
+//                    state359 = state.PARK;
+//
+//                case PARK:
+//                    if (detected == 1) {
+//
+//                    }
+//                    if (detected == 2) {
+//
+//                    }
+//                    if (detected == 3) {
+//
+//                    }
+//                    state359 = state.STOP;
+//
+//                case STOP:
+//                    motor1.setPower(0);
+//                    motor2.setPower(0);
+//                    motor3.setPower(0);
+//                    motor4.setPower(0);
+//                    break;
             }
-            break;
+//            break;
         }
     }
 

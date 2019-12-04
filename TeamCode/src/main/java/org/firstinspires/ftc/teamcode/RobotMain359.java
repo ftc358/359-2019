@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.motors.RevRobotics40HdHexMotor;
+import com.qualcomm.hardware.motors.TetrixMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,7 +39,7 @@ public abstract class RobotMain359 extends LinearOpMode {
 //    protected DcMotor corehexmotorleft, corehexmotorright;
     protected CRServo foundation, skystoneMove;
     protected BNO055IMU my_imu;
-    protected DistanceSensor my_Distancesensor;
+//    protected DistanceSensor my_Distancesensor;
 
     public RobotPosition359 STARTING_POSITION;
     public RobotPosition359 CURRENT_POSITION;
@@ -76,13 +78,16 @@ public abstract class RobotMain359 extends LinearOpMode {
         my_imu = hardwareMap.get(BNO055IMU.class, "imu");
         my_imu.initialize(parameters);
 
-        my_Distancesensor = hardwareMap.get(DistanceSensor.class, "ds");
+//        my_Distancesensor = hardwareMap.get(DistanceSensor.class, "ds");
     }
 
     /**
      * Encoders settings
      */
-    public void forward(double power, int distance) {
+    public void forward(double power, int rotations) {
+
+//        final int tickBlue = 1440;
+//        final int tickRev = 1120;
 
         //positive distance is going forward
 
@@ -93,16 +98,84 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(distance);
-        motor2.setTargetPosition(distance);
-        motor3.setTargetPosition(distance);
-        motor4.setTargetPosition(distance);
+        motor1.setTargetPosition(motor1.getCurrentPosition() + rotations * 1000);
+        motor2.setTargetPosition(-(motor2.getCurrentPosition() + rotations * 1000));
+        motor3.setTargetPosition(motor3.getCurrentPosition() + rotations * 1000);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + rotations * 1000);
 
         //Set Drive Power
-        motor1.setPower(-power);
-        motor2.setPower(.35 * power);
+        motor1.setPower(1);
+        motor2.setPower(1);
+        motor3.setPower(1);
+        motor4.setPower(-1);
+
+        //Set to RUN_TO_POSITION mode
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (motor1.isBusy()) {
+            //Wait Until Target Position is Reached
+            telemetry.addData("position1", motor1.getCurrentPosition());
+            telemetry.addData("target1", motor1.getTargetPosition());
+            telemetry.addData("position2", motor2.getCurrentPosition());
+            telemetry.addData("target2", motor2.getTargetPosition());
+            telemetry.addData("position3", motor3.getCurrentPosition());
+            telemetry.addData("target3", motor3.getTargetPosition());
+            telemetry.addData("position4", motor4.getCurrentPosition());
+            telemetry.addData("target4", motor4.getTargetPosition());
+            telemetry.update();
+        }
+
+        //Stop and Change Mode back to Normal
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
+    public void forwardWithOneMotor(DcMotor motorBob, double power, int rotations){
+//        motorBob.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBob.setTargetPosition(motorBob.getCurrentPosition() + rotations * 1000);
+        motorBob.setPower(power);
+        motorBob.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (motorBob.isBusy()) {
+            telemetry.addData("position", motorBob.getCurrentPosition());
+            telemetry.addData("target", motorBob.getTargetPosition());
+            telemetry.update();
+
+        }
+        motorBob.setPower(0);
+    }
+
+    //maybe let's change this later idk hahah
+    public void turn(double power, int rotation) {
+
+        power = -power;
+        int tickblue = 1440;
+        int tickrev = 1120;
+
+        //positive distance is going forward
+
+        //Reset Encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        motor1.setTargetPosition(rotation * tickblue);
+        motor2.setTargetPosition(rotation * tickblue);
+        motor3.setTargetPosition(rotation * tickrev);
+        motor4.setTargetPosition(rotation * tickrev);
+
+        //Set Drive Power
+        motor1.setPower(power);
+        motor2.setPower(power);
         motor3.setPower(power);
-        motor4.setPower(-power);
+        motor4.setPower(power);
 
         //Set to RUN_TO_POSITION mode
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -121,7 +194,11 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setPower(0);
     }
 
-    public void turn(double power, int distance) {
+    public void strafe(double power, int rotations) {
+
+        power = -power;
+        int tickblue = 1440;
+        int tickrev = 1120;
 
         //positive distance is going forward
 
@@ -132,55 +209,16 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(distance);
-        motor2.setTargetPosition(-distance);
-        motor3.setTargetPosition(-distance);
-        motor4.setTargetPosition(distance);
+        motor1.setTargetPosition(rotations * tickblue);
+        motor2.setTargetPosition(rotations * tickblue);
+        motor3.setTargetPosition(rotations * tickrev);
+        motor4.setTargetPosition(rotations * tickrev);
 
         //Set Drive Power
-        motor1.setPower(-power);
-        motor2.setPower(.35 * power);
+        motor1.setPower(power);
+        motor2.setPower(power);
         motor3.setPower(power);
-        motor4.setPower(-power);
-
-        //Set to RUN_TO_POSITION mode
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
-            //Wait Until Target Position is Reached
-        }
-
-        //Stop and Change Mode back to Normal
-        motor1.setPower(0);
-        motor2.setPower(0);
-        motor3.setPower(0);
-        motor4.setPower(0);
-    }
-
-    public void strafe(double power, int distance) {
-
-        //positive distance is going forward
-
-        //Reset Encoders
-        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //Set Target Position
-        motor1.setTargetPosition(distance);
-        motor2.setTargetPosition(-distance);
-        motor3.setTargetPosition(distance);
-        motor4.setTargetPosition(-distance);
-
-        //Set Drive Power
-        motor1.setPower(-power);
-        motor2.setPower(.35 * power);
-        motor3.setPower(power);
-        motor4.setPower(-power);
+        motor4.setPower(power);
 
         //Set to RUN_TO_POSITION mode
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
