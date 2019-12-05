@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+/**
+ * Written to test RobotMainAAAAAAAA class for 359 faulty chassis
+ */
+
 @Autonomous
 public class AutoTestAAAAAAAA extends RobotMainAAAAAAAA {
 
@@ -13,9 +17,9 @@ public class AutoTestAAAAAAAA extends RobotMainAAAAAAAA {
 
         if (opModeIsActive()) {
 
-            forward(1, 5);
-            strafeRight(1, 9);
-            turnLeft(1, 5);
+            forward(1, 24);
+            strafeRight(1, 24);
+            turnLeft(1, 360);
 
         }
     }
