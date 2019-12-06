@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /**
  * Written to test RobotMainAAAAAAAA class for 359 faulty chassis
  */
 
+@Disabled
 @Autonomous
 public class AutoTestAAAAAAAA extends RobotMainAAAAAAAA {
 

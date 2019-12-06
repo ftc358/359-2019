@@ -20,7 +20,7 @@ import java.util.List;
 
 public abstract class RobotMain359 extends LinearOpMode {
 
-    //Vuforia
+    //Vuforia and Drive Train
     public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     public static final String LABEL_FIRST_ELEMENT = "Stone";
     public static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -33,6 +33,9 @@ public abstract class RobotMain359 extends LinearOpMode {
     public TFObjectDetector tfod;
     public RobotPosition359 STARTING_POSITION;
     public RobotPosition359 CURRENT_POSITION;
+    public static final double FORWARD_ADJUST = 98.04;
+    public static final double TURN_ADJUST = 10.0 * (90.0 / 47.0) * (720.0 / 702.0);
+    public static final double STRAFE_ADJUST = 98.04;
     //Motors and sensors
     protected DcMotor motor1, motor2, motor3, motor4;
     protected DcMotor frontintakeleft, frontintakeright;
@@ -45,8 +48,6 @@ public abstract class RobotMain359 extends LinearOpMode {
     /**
      * Initializing settings
      */
-    //TODO: Think of a way to add the initialize function in each auto, or put it into another
-    // function
     public void initializeSettings() throws InterruptedException {
 
         motor1 = hardwareMap.dcMotor.get("motor1");
@@ -83,11 +84,9 @@ public abstract class RobotMain359 extends LinearOpMode {
     /**
      * Encoders settings
      */
-    public void forward(double power, int rotations) {
+    public void forward(double power, int inches) {
 
-        final int tickRev = 1120;
-
-        //positive distance is going forward
+        final double FORWARD_DISTANCE = inches * FORWARD_ADJUST;
 
         //Reset Encoders
         motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -96,16 +95,16 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(motor1.getCurrentPosition() + rotations * tickRev);
-        motor2.setTargetPosition(motor2.getCurrentPosition() + rotations * tickRev);
-        motor3.setTargetPosition(motor3.getCurrentPosition() + rotations * tickRev);
-        motor4.setTargetPosition(motor4.getCurrentPosition() + rotations * tickRev);
+        motor1.setTargetPosition(motor1.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + (int) FORWARD_DISTANCE);
 
         //Set Drive Power
-        motor1.setPower(power);
+        motor1.setPower(-power);
         motor2.setPower(power);
         motor3.setPower(power);
-        motor4.setPower(power);
+        motor4.setPower(-power);
 
         //Set to RUN_TO_POSITION mode
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -139,12 +138,9 @@ public abstract class RobotMain359 extends LinearOpMode {
         motorBob.setPower(0);
     }
 
-    //maybe let's change this later idk hahah
-    public void turn(double power, int rotation) {
+    public void turn(double power, int degrees) {
 
-        final int tickRev = 1120;
-
-        //positive distance is going forward
+        final double TURN_DISTANCE = degrees * TURN_ADJUST;
 
         //Reset Encoders
         motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -153,10 +149,10 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(rotation * tickRev);
-        motor2.setTargetPosition(rotation * tickRev);
-        motor3.setTargetPosition(rotation * tickRev);
-        motor4.setTargetPosition(rotation * tickRev);
+        motor1.setTargetPosition(motor1.getCurrentPosition() + (int) TURN_DISTANCE);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + (int) TURN_DISTANCE);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + (int) TURN_DISTANCE);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + (int) TURN_DISTANCE);
 
         //Set Drive Power
         motor1.setPower(power);
@@ -181,9 +177,9 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setPower(0);
     }
 
-    public void strafe(double power, int rotations) {
+    public void strafe(double power, int inches) {
 
-        final int tickRev = 1120;
+        final double STRAFE_DISTANCE = inches * STRAFE_ADJUST;
 
         //positive distance is going forward
 
@@ -194,16 +190,16 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(rotations * tickRev);
-        motor2.setTargetPosition(rotations * tickRev);
-        motor3.setTargetPosition(rotations * tickRev);
-        motor4.setTargetPosition(rotations * tickRev);
+        motor1.setTargetPosition(motor1.getCurrentPosition() + (int) STRAFE_DISTANCE);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + (int) STRAFE_DISTANCE);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + (int) STRAFE_DISTANCE);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + (int) STRAFE_DISTANCE);
 
         //Set Drive Power
         motor1.setPower(power);
         motor2.setPower(power);
-        motor3.setPower(power);
-        motor4.setPower(power);
+        motor3.setPower(-power);
+        motor4.setPower(-power);
 
         //Set to RUN_TO_POSITION mode
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -253,7 +249,72 @@ public abstract class RobotMain359 extends LinearOpMode {
         }
     }
 
-    public int lookForwardAndCheck() {
+    public int lookForwardAndCheckBlue() {
+        int position = 0;
+        initVuforiaThingy();
+
+        /**
+         * position = 1 is Skystone left, 2 is middle, and 3 is right
+         */
+
+        if (tfod != null) {
+            tfod.activate();
+        } else {
+            return 0;
+        }
+
+        // getUpdatedRecognitions() will return null if no new information is available since
+        // the last time that call was made.
+        while (position == 0) {
+            updatedRecognitions = tfod.getUpdatedRecognitions();
+            int maxSize = 0;
+            for (int i = 0; i < 50; i++) {
+                List<Recognition> newRecognitions = tfod.getUpdatedRecognitions();
+                if (newRecognitions != null && newRecognitions.size() > maxSize) {
+                    updatedRecognitions = newRecognitions;
+                    maxSize = newRecognitions.size();
+                }
+                sleep(10);
+            }
+
+            if (updatedRecognitions != null) {
+                if (updatedRecognitions.size() == 2) {
+                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT
+                            || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
+                        int THRESHOLD = 200;
+                        int skystonePosition;
+                        int stonePosition;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
+                                skystonePosition = (int) recognition.getLeft();
+
+                                if (skystonePosition < THRESHOLD) {
+                                    position = 1;
+                                } else if (skystonePosition > THRESHOLD) {
+                                    position = 2;
+                                }
+
+                            } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
+                                stonePosition = (int) recognition.getLeft();
+                                if (stonePosition < THRESHOLD) {
+                                    position = 2;
+                                } else if (stonePosition > THRESHOLD) {
+                                    position = 1;
+                                }
+                            }
+                        }
+                    } else {
+                        //This means that we have not detected a Skystone, so the Skystone is
+                        // probably at position 3
+                        position = 3;
+                    }
+                }
+            }
+        }
+        return position;
+    }
+
+    public int lookForwardAndCheckRed() {
         int position = 0;
         initVuforiaThingy();
 

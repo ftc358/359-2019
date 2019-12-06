@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-@Disabled
 @Autonomous
 public class Auto359BlueStone extends RobotMain359 {
 
@@ -19,12 +18,11 @@ public class Auto359BlueStone extends RobotMain359 {
         if (opModeIsActive()) {
             switch (state359) {
                 case DETECT:
-                    forward(0.25, 10000);
+                    forward(0.25, 20);
 
-                    detected = lookForwardAndCheck();
+                    detected = lookForwardAndCheckBlue();
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
-
                     state359 = state.DRIVE;
 
                 case DRIVE:
@@ -32,6 +30,7 @@ public class Auto359BlueStone extends RobotMain359 {
 
                     }
                     if (detected == 2) {
+                        turn(0.5,90);
 
                     }
                     if (detected == 3) {
