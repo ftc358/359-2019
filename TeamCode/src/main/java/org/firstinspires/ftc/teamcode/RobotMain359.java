@@ -35,8 +35,8 @@ public abstract class RobotMain359 extends LinearOpMode {
     public RobotPosition359 CURRENT_POSITION;
     //Motors and sensors
     protected DcMotor motor1, motor2, motor3, motor4;
-    //    protected DcMotor frontintakeleft, frontintakeright;
-//    protected DcMotor corehexmotorleft, corehexmotorright;
+    protected DcMotor frontintakeleft, frontintakeright;
+    protected DcMotor corehexmotorleft, corehexmotorright;
     protected CRServo foundation, skystoneMove;
 //    protected DistanceSensor my_Distancesensor;
     protected BNO055IMU my_imu;
@@ -53,12 +53,12 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
-//        corehexmotorleft = hardwareMap.dcMotor.get("chleft");
-//        corehexmotorright = hardwareMap.dcMotor.get("chright");
-//        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
-//        frontintakeright = hardwareMap.dcMotor.get("frontright");
+        corehexmotorleft = hardwareMap.dcMotor.get("chleft");
+        corehexmotorright = hardwareMap.dcMotor.get("chright");
+        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
+        frontintakeright = hardwareMap.dcMotor.get("frontright");
         foundation = hardwareMap.crservo.get("foundation");
-//        skystoneMove = hardwareMap.crservo.get("skystoneMove");
+        skystoneMove = hardwareMap.crservo.get("skystoneMove");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -67,7 +67,7 @@ public abstract class RobotMain359 extends LinearOpMode {
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-//        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -85,8 +85,7 @@ public abstract class RobotMain359 extends LinearOpMode {
      */
     public void forward(double power, int rotations) {
 
-//        final int tickBlue = 1440;
-//        final int tickRev = 1120;
+        final int tickRev = 1120;
 
         //positive distance is going forward
 
@@ -97,16 +96,16 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(motor1.getCurrentPosition() + rotations * 1000);
-        motor2.setTargetPosition(-(motor2.getCurrentPosition() + rotations * 1000));
-        motor3.setTargetPosition(motor3.getCurrentPosition() + rotations * 1000);
-        motor4.setTargetPosition(motor4.getCurrentPosition() + rotations * 1000);
+        motor1.setTargetPosition(motor1.getCurrentPosition() + rotations * tickRev);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + rotations * tickRev);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + rotations * tickRev);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + rotations * tickRev);
 
         //Set Drive Power
-        motor1.setPower(1);
-        motor2.setPower(1);
-        motor3.setPower(1);
-        motor4.setPower(-1);
+        motor1.setPower(power);
+        motor2.setPower(power);
+        motor3.setPower(power);
+        motor4.setPower(power);
 
         //Set to RUN_TO_POSITION mode
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -114,17 +113,8 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (motor1.isBusy()) {
+        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
             //Wait Until Target Position is Reached
-            telemetry.addData("position1", motor1.getCurrentPosition());
-            telemetry.addData("target1", motor1.getTargetPosition());
-            telemetry.addData("position2", motor2.getCurrentPosition());
-            telemetry.addData("target2", motor2.getTargetPosition());
-            telemetry.addData("position3", motor3.getCurrentPosition());
-            telemetry.addData("target3", motor3.getTargetPosition());
-            telemetry.addData("position4", motor4.getCurrentPosition());
-            telemetry.addData("target4", motor4.getTargetPosition());
-            telemetry.update();
         }
 
         //Stop and Change Mode back to Normal
@@ -152,9 +142,7 @@ public abstract class RobotMain359 extends LinearOpMode {
     //maybe let's change this later idk hahah
     public void turn(double power, int rotation) {
 
-        power = -power;
-        int tickblue = 1440;
-        int tickrev = 1120;
+        final int tickRev = 1120;
 
         //positive distance is going forward
 
@@ -165,10 +153,10 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(rotation * tickblue);
-        motor2.setTargetPosition(rotation * tickblue);
-        motor3.setTargetPosition(rotation * tickrev);
-        motor4.setTargetPosition(rotation * tickrev);
+        motor1.setTargetPosition(rotation * tickRev);
+        motor2.setTargetPosition(rotation * tickRev);
+        motor3.setTargetPosition(rotation * tickRev);
+        motor4.setTargetPosition(rotation * tickRev);
 
         //Set Drive Power
         motor1.setPower(power);
@@ -195,9 +183,7 @@ public abstract class RobotMain359 extends LinearOpMode {
 
     public void strafe(double power, int rotations) {
 
-        power = -power;
-        int tickblue = 1440;
-        int tickrev = 1120;
+        final int tickRev = 1120;
 
         //positive distance is going forward
 
@@ -208,10 +194,10 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        motor1.setTargetPosition(rotations * tickblue);
-        motor2.setTargetPosition(rotations * tickblue);
-        motor3.setTargetPosition(rotations * tickrev);
-        motor4.setTargetPosition(rotations * tickrev);
+        motor1.setTargetPosition(rotations * tickRev);
+        motor2.setTargetPosition(rotations * tickRev);
+        motor3.setTargetPosition(rotations * tickRev);
+        motor4.setTargetPosition(rotations * tickRev);
 
         //Set Drive Power
         motor1.setPower(power);

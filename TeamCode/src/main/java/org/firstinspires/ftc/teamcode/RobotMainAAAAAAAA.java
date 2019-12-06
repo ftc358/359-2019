@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 abstract class RobotMainAAAAAAAA extends LinearOpMode {
     //Robot & drive train measurements
     private static final double WHEEL_DIAMETER = (double) 4; //inches
-    private static final double DRIVE_TRAIN_LENGTH = 16; //inches
-    private static final double DRIVE_TRAIN_WIDTH = 16; //inches
+    private static final double DRIVE_TRAIN_LENGTH = 9.375; //inches
+    private static final double DRIVE_TRAIN_WIDTH = 15.5; //inches
     private static final double DRIVE_TRAIN_DIAGONAL = sqrt(
             DRIVE_TRAIN_WIDTH * DRIVE_TRAIN_WIDTH + DRIVE_TRAIN_LENGTH * DRIVE_TRAIN_LENGTH);
     private static final double GEAR_RATIO = (double) 1 / 1; //motor / final (drive)

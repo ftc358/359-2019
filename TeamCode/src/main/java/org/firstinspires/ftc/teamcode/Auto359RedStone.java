@@ -10,42 +10,25 @@ public class Auto359RedStone extends RobotMain359 {
 
     public void runOpMode() throws InterruptedException {
 
-//        initialize(new );
-
         initializeSettings();
-
         state359 = state.DETECT;
         waitForStart();
 
         if (opModeIsActive()) {
             switch (state359) {
                 case DETECT:
-//                    motor1.setPower(1);
-//                    motor2.setPower(1);
-//                    motor3.setPower(1);
-//                    motor4.setPower(1);
-                    forward(1, 5);
-
+                    motor1.setPower(1);
+                    motor2.setPower(1);
+                    motor3.setPower(1);
+                    motor4.setPower(1);
+//                    forward(1, 5);
 
 //                    detected = lookForwardAndCheck();
 //                    telemetry.addData("position of the skystone", detected);
 //                    telemetry.update();
-//
-//                    state359 = state.STOP;
+//                    state359 = state.DRIVE;
                     break;
 //                case DRIVE:
-//                    if (detected == 1) {
-//
-//                    }
-//                    if (detected == 2) {
-//
-//                    }
-//                    if (detected == 3) {
-//
-//                    }
-//                    state359 = state.PARK;
-//
-//                case PARK:
 //                    if (detected == 1) {
 //
 //                    }
@@ -70,7 +53,7 @@ public class Auto359RedStone extends RobotMain359 {
 
     enum state {
 
-        DETECT, DRIVE, PARK, STOP
+        DETECT, DRIVE, STOP
 
     }
 }

@@ -37,51 +37,51 @@ public class TeleOp359 extends RobotMain359 {
             telemetry.addData("position4", motor4.getCurrentPosition());
             telemetry.update();
 
-//            /**
-//             *Intake Mechanism
-//             */
-//            if (gamepad2.left_bumper){
-//                corehexmotorleft.setPower(0.5);
-//                corehexmotorright.setPower(0.5);
-//                frontintakeleft.setPower(0.5);
-//                frontintakeright.setPower(0.5);
-//            }
-//            else if (gamepad2.right_bumper){
-//                corehexmotorleft.setPower(-0.5);
-//                corehexmotorright.setPower(-0.5);
-//                frontintakeleft.setPower(-0.5);
-//                frontintakeright.setPower(-0.5);
-//            }
-//            else{
-//                corehexmotorleft.setPower(0);
-//                corehexmotorright.setPower(0);
-//                frontintakeleft.setPower(0);
-//                frontintakeright.setPower(0);
-//            }
+            /**
+             *Intake Mechanism
+             */
+            if (gamepad2.left_bumper){
+                corehexmotorleft.setPower(0.5);
+                corehexmotorright.setPower(0.5);
+                frontintakeleft.setPower(0.5);
+                frontintakeright.setPower(0.5);
+            }
+            else if (gamepad2.right_bumper){
+                corehexmotorleft.setPower(-0.5);
+                corehexmotorright.setPower(-0.5);
+                frontintakeleft.setPower(-0.5);
+                frontintakeright.setPower(-0.5);
+            }
+            else{
+                corehexmotorleft.setPower(0);
+                corehexmotorright.setPower(0);
+                frontintakeleft.setPower(0);
+                frontintakeright.setPower(0);
+            }
 //
             /**
              *Foundation mechanism
              */
             if (gamepad1.dpad_up) {
-                foundation.setPower(0.5);
+                foundation.setPower(0.75);
             } else if (gamepad1.dpad_down) {
-                foundation.setPower(-0.5);
+                foundation.setPower(-0.75);
             } else {
                 foundation.setPower(0);
             }
 
-//            /**
-//             *Skystone Move just in case there're problems during auto
-//             */
-//            if (gamepad1.a) {
-//                skystoneMove.setPower(.5);
-//            }
-//            else if (gamepad1.b){
-//                skystoneMove.setPower(-.5);
-//            }
-//            else{
-//                skystoneMove.setPower(0);
-//            }
+            /**
+             *Skystone Move just in case there're problems during auto
+             */
+            if (gamepad1.a) {
+                skystoneMove.setPower(.5);
+            }
+            else if (gamepad1.b){
+                skystoneMove.setPower(-.5);
+            }
+            else{
+                skystoneMove.setPower(0);
+            }
         }
     }
 }
