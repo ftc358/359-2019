@@ -74,13 +74,10 @@ public class TeleOp359 extends RobotMain359 {
              *Skystone Move just in case there're problems during auto
              */
             if (gamepad1.a) {
-                skystoneMove.setPower(.5);
+                skystoneMove.setPosition(90);
             }
             else if (gamepad1.b){
-                skystoneMove.setPower(-.5);
-            }
-            else{
-                skystoneMove.setPower(0);
+                skystoneMove.setPosition(0);
             }
         }
     }

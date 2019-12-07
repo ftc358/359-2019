@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous
 public class Auto359BlueStone extends RobotMain359 {
@@ -18,22 +17,43 @@ public class Auto359BlueStone extends RobotMain359 {
         if (opModeIsActive()) {
             switch (state359) {
                 case DETECT:
-                    forward(0.25, 20);
+                    skystoneMove.setPosition(90);
+//                    forward(0.5, 20);
 
-                    detected = lookForwardAndCheckBlue();
+//                    detected = lookForwardAndCheckBlue();
                     telemetry.addData("position of the skystone", detected);
                     telemetry.update();
                     state359 = state.DRIVE;
 
                 case DRIVE:
                     if (detected == 1) {
+                        turn(0.5,-85);
+                        forward(0.5,10);
+                        strafe(0.5,11);
+                        skystoneMove.setPosition(90);
+                        strafe(0.5,-25);
+                        forward(0.5,45);
+                        forward(0.5,-20);
 
                     }
                     if (detected == 2) {
-                        turn(0.5,90);
+                        turn(0.5,-85);
+                        forward(0.5,1.5);
+                        strafe(0.5,11);
+                        skystoneMove.setPosition(90);
+                        strafe(0.5,-25);
+                        forward(0.5,50);
+                        forward(0.5,-15);
 
                     }
                     if (detected == 3) {
+                        turn(0.5,-85);
+                        forward(0.5,-7);
+                        strafe(0.5,11);
+                        skystoneMove.setPosition(90);
+                        strafe(0.5,-25);
+                        forward(0.5,59);
+                        forward(0.5,-20);
 
                     }
                     state359 = state.STOP;

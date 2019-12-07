@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -40,7 +41,8 @@ public abstract class RobotMain359 extends LinearOpMode {
     protected DcMotor motor1, motor2, motor3, motor4;
     protected DcMotor frontintakeleft, frontintakeright;
     protected DcMotor corehexmotorleft, corehexmotorright;
-    protected CRServo foundation, skystoneMove;
+    protected CRServo foundation;
+    protected Servo skystoneMove;
 //    protected DistanceSensor my_Distancesensor;
     protected BNO055IMU my_imu;
     List<Recognition> updatedRecognitions;
@@ -59,7 +61,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         frontintakeleft = hardwareMap.dcMotor.get("frontleft");
         frontintakeright = hardwareMap.dcMotor.get("frontright");
         foundation = hardwareMap.crservo.get("foundation");
-        skystoneMove = hardwareMap.crservo.get("skystoneMove");
+        skystoneMove = hardwareMap.servo.get("skystoneMove");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -84,7 +86,7 @@ public abstract class RobotMain359 extends LinearOpMode {
     /**
      * Encoders settings
      */
-    public void forward(double power, int inches) {
+    public void forward(double power, double inches) {
 
         final double FORWARD_DISTANCE = inches * FORWARD_ADJUST;
 
@@ -177,7 +179,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setPower(0);
     }
 
-    public void strafe(double power, int inches) {
+    public void strafe(double power, double inches) {
 
         final double STRAFE_DISTANCE = inches * STRAFE_ADJUST;
 
@@ -239,7 +241,6 @@ public abstract class RobotMain359 extends LinearOpMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-//        parameters.cameraDirection = CAMERA_CHOICE;
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -252,6 +253,8 @@ public abstract class RobotMain359 extends LinearOpMode {
     public int lookForwardAndCheckBlue() {
         int position = 0;
         initVuforiaThingy();
+        telemetry.addData("you have passed initVuforia()", position);
+        telemetry.update();
 
         /**
          * position = 1 is Skystone left, 2 is middle, and 3 is right
@@ -317,6 +320,8 @@ public abstract class RobotMain359 extends LinearOpMode {
     public int lookForwardAndCheckRed() {
         int position = 0;
         initVuforiaThingy();
+        telemetry.addData("you have passed initVuforia()", position);
+        telemetry.update();
 
         /**
          * position = 1 is Skystone left, 2 is middle, and 3 is right
