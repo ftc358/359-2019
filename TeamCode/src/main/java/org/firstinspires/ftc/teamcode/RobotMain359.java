@@ -23,13 +23,8 @@ public abstract class RobotMain359 extends LinearOpMode {
 
     //Vuforia and Drive Train
     public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    public static final String LABEL_FIRST_ELEMENT = "Stone";
-    public static final String LABEL_SECOND_ELEMENT = "Skystone";
-    public static final String VUFORIA_KEY = "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0"
-            + "iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAk"
-            + "USIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URF"
-            + "pH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh37"
-            + "4/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
+    public static final String VUFORIA_KEY =
+            "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
     public RobotPosition359 STARTING_POSITION;
@@ -231,7 +226,7 @@ public abstract class RobotMain359 extends LinearOpMode {
 
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, "Stone", "Skystone");
     }
 
     private void initVuforiaThingy() {
@@ -245,16 +240,18 @@ public abstract class RobotMain359 extends LinearOpMode {
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
+            telemetry.addData("you have passed initVuforia()", "yay!");
+            telemetry.update();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
     }
 
-    public int lookForwardAndCheckBlue() {
+    public int lookForwardAndCheckBlue(){
         int position = 0;
         initVuforiaThingy();
-        telemetry.addData("you have passed initVuforia()", position);
-        telemetry.update();
+
+        sleep(500);
 
         /**
          * position = 1 is Skystone left, 2 is middle, and 3 is right
@@ -282,13 +279,13 @@ public abstract class RobotMain359 extends LinearOpMode {
 
             if (updatedRecognitions != null) {
                 if (updatedRecognitions.size() == 2) {
-                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT
-                            || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
+                    if (updatedRecognitions.get(0).getLabel() == "Skystone"
+                            || updatedRecognitions.get(1).getLabel() == "Skystone") {
                         int THRESHOLD = 200;
                         int skystonePosition;
                         int stonePosition;
                         for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
+                            if (recognition.getLabel() == "Skystone") {
                                 skystonePosition = (int) recognition.getLeft();
 
                                 if (skystonePosition < THRESHOLD) {
@@ -297,7 +294,7 @@ public abstract class RobotMain359 extends LinearOpMode {
                                     position = 2;
                                 }
 
-                            } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
+                            } else if (recognition.getLabel() == "Stone") {
                                 stonePosition = (int) recognition.getLeft();
                                 if (stonePosition < THRESHOLD) {
                                     position = 2;
@@ -305,12 +302,21 @@ public abstract class RobotMain359 extends LinearOpMode {
                                     position = 1;
                                 }
                             }
+                            else {
+                                position = 3;
+                            }
                         }
-                    } else {
-                        //This means that we have not detected a Skystone, so the Skystone is
-                        // probably at position 3
+                    }else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
                         position = 3;
                     }
+                    else {
+                        position = 3;
+                    }
+                }
+                else {
+                    //This means that we have not detected a Skystone, so the Skystone is
+                    // probably at position 3
+                    position = 3;
                 }
             }
         }
@@ -320,8 +326,8 @@ public abstract class RobotMain359 extends LinearOpMode {
     public int lookForwardAndCheckRed() {
         int position = 0;
         initVuforiaThingy();
-        telemetry.addData("you have passed initVuforia()", position);
-        telemetry.update();
+
+        sleep(500);
 
         /**
          * position = 1 is Skystone left, 2 is middle, and 3 is right
@@ -349,13 +355,13 @@ public abstract class RobotMain359 extends LinearOpMode {
 
             if (updatedRecognitions != null) {
                 if (updatedRecognitions.size() == 2) {
-                    if (updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT
-                            || updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
+                    if (updatedRecognitions.get(0).getLabel() == "Skystone"
+                            || updatedRecognitions.get(1).getLabel() == "Skystone") {
                         int THRESHOLD = 200;
                         int skystonePosition;
                         int stonePosition;
                         for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
+                            if (recognition.getLabel() == "Skystone") {
                                 skystonePosition = (int) recognition.getLeft();
 
                                 if (skystonePosition < THRESHOLD) {
@@ -364,7 +370,7 @@ public abstract class RobotMain359 extends LinearOpMode {
                                     position = 3;
                                 }
 
-                            } else if (recognition.getLabel() == LABEL_FIRST_ELEMENT) {
+                            } else if (recognition.getLabel() == "Stone") {
                                 stonePosition = (int) recognition.getLeft();
                                 if (stonePosition < THRESHOLD) {
                                     position = 3;
@@ -372,12 +378,21 @@ public abstract class RobotMain359 extends LinearOpMode {
                                     position = 2;
                                 }
                             }
+                            else {
+                                position = 1;
+                            }
                         }
-                    } else {
-                        //This means that we have not detected a Skystone, so the Skystone is
-                        // probably at position 3
+                    }else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
                         position = 1;
                     }
+                    else {
+                        position = 1;
+                    }
+                }
+                else {
+                    //This means that we have not detected a Skystone, so the Skystone is
+                    // probably at position 3
+                    position = 1;
                 }
             }
         }

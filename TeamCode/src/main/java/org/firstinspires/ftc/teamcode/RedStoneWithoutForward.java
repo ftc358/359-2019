@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous
-public class Auto359RedStone extends RobotMain359 {
+public class RedStoneWithoutForward extends RobotMain359 {
 
     int detected = 0;
     state state359;
@@ -20,10 +20,6 @@ public class Auto359RedStone extends RobotMain359 {
         while (opModeIsActive() && !done) {
             switch (state359) {
                 case DETECT:
-                    telemetry.addData("Going forward", "yay!");
-                    telemetry.update();
-                    forward(0.5, 20);
-
                     telemetry.addData("Going to Vuforia", "yay!");
                     telemetry.update();
                     detected = lookForwardAndCheckRed();
@@ -73,7 +69,7 @@ public class Auto359RedStone extends RobotMain359 {
                             forward(0.5,10);
                             break;
                     }
-                    state359 = Auto359RedStone.state.STOP;
+                    state359 = RedStoneWithoutForward.state.STOP;
                     break;
 
                 case STOP:

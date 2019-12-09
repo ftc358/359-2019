@@ -7,6 +7,7 @@ public class TeleOp359 extends RobotMain359 {
 
     public void runOpMode() throws InterruptedException {
         initializeSettings();
+        skystoneMove.setPosition(1.);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -31,16 +32,10 @@ public class TeleOp359 extends RobotMain359 {
             motor3.setPower(v3);
             motor4.setPower(v4);
 
-            telemetry.addData("position1", motor1.getCurrentPosition());
-            telemetry.addData("position2", motor2.getCurrentPosition());
-            telemetry.addData("position3", motor3.getCurrentPosition());
-            telemetry.addData("position4", motor4.getCurrentPosition());
-            telemetry.update();
-
             /**
              *Intake Mechanism
              */
-            if (gamepad2.left_bumper){
+            if (gamepad2.y){
                 corehexmotorleft.setPower(0.5);
                 corehexmotorright.setPower(0.5);
                 frontintakeleft.setPower(0.5);
@@ -62,10 +57,10 @@ public class TeleOp359 extends RobotMain359 {
             /**
              *Foundation mechanism
              */
-            if (gamepad2.dpad_up) {
-                foundation.setPower(0.75);
-            } else if (gamepad2.dpad_down) {
-                foundation.setPower(-0.75);
+            if (gamepad2.a) {
+                foundation.setPower(1);
+            } else if (gamepad2.b) {
+                foundation.setPower(-1);
             } else {
                 foundation.setPower(0);
             }
@@ -73,11 +68,12 @@ public class TeleOp359 extends RobotMain359 {
             /**
              *Skystone Move just in case there're problems during auto
              */
+
             if (gamepad1.a) {
-                skystoneMove.setPosition(90);
+                skystoneMove.setPosition(1.);          //up
             }
             else if (gamepad1.b){
-                skystoneMove.setPosition(0);
+                skystoneMove.setPosition(0.4);          //down
             }
         }
     }

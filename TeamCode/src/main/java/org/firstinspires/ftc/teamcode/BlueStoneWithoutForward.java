@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous
-public class Auto359RedStone extends RobotMain359 {
+public class BlueStoneWithoutForward extends RobotMain359 {
 
     int detected = 0;
     state state359;
@@ -20,13 +20,9 @@ public class Auto359RedStone extends RobotMain359 {
         while (opModeIsActive() && !done) {
             switch (state359) {
                 case DETECT:
-                    telemetry.addData("Going forward", "yay!");
-                    telemetry.update();
-                    forward(0.5, 20);
-
                     telemetry.addData("Going to Vuforia", "yay!");
                     telemetry.update();
-                    detected = lookForwardAndCheckRed();
+                    detected = lookForwardAndCheckBlue();
 
                     telemetry.addData("position of the skystone", detected);
                     telemetry.addData("Going to DRIVE", "yay!");
@@ -38,42 +34,42 @@ public class Auto359RedStone extends RobotMain359 {
                     switch (detected) {
                         case 1:
                             turn(0.5,-85);
-                            forward(0.5,17);
+                            forward(0.5,10);
                             strafe(0.25,12);
                             sleep(500);
                             skystoneMove.setPosition(.4);
                             sleep(1000);
                             strafe(0.5,-25);
-                            forward(0.5,-54);
+                            forward(0.5,45);
                             skystoneMove.setPosition(1.);
-                            forward(0.5,24);
+                            forward(0.5,-20);
                             break;
                         case 2:
                             turn(0.5,-85);
-                            forward(0.5,10);
+                            forward(0.5,1.5);
                             strafe(0.25,12);
                             sleep(500);
                             skystoneMove.setPosition(.4);
                             sleep(1000);
                             strafe(0.5,-25);
-                            forward(0.5,-47);
+                            forward(0.5,50);
                             skystoneMove.setPosition(1.);
-                            forward(0.5,17);
+                            forward(0.5,-15);
                             break;
                         case 3:
                             turn(0.5,-85);
-                            forward(0.5,3);
+                            forward(0.5,-7);
                             strafe(0.25,12);
                             sleep(500);
                             skystoneMove.setPosition(.4);
                             sleep(1000);
                             strafe(0.5,-25);
-                            forward(0.5,-40);
+                            forward(0.5,59);
                             skystoneMove.setPosition(1.);
-                            forward(0.5,10);
+                            forward(0.5,-20);
                             break;
                     }
-                    state359 = Auto359RedStone.state.STOP;
+                    state359 = state.STOP;
                     break;
 
                 case STOP:
