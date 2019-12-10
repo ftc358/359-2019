@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -38,7 +40,7 @@ public abstract class RobotMain359 extends LinearOpMode {
     protected DcMotor corehexmotorleft, corehexmotorright;
     protected CRServo foundation;
     protected Servo skystoneMove;
-//    protected DistanceSensor my_Distancesensor;
+    protected DistanceSensor my_Distancesensor;
     protected BNO055IMU my_imu;
     List<Recognition> updatedRecognitions;
 
@@ -206,6 +208,49 @@ public abstract class RobotMain359 extends LinearOpMode {
 
         while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
             //Wait Until Target Position is Reached
+        }
+
+        //Stop and Change Mode back to Normal
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
+    public void runWithDistanceSensor(double distanceLimitInches, double power, int inches) {
+
+        final double FORWARD_DISTANCE = inches * FORWARD_ADJUST;
+
+        //Reset Encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        motor1.setTargetPosition(motor1.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + (int) FORWARD_DISTANCE);
+
+        //Set Drive Power
+        motor1.setPower(-power);
+        motor2.setPower(power);
+        motor3.setPower(power);
+        motor4.setPower(-power);
+
+        //Set to RUN_TO_POSITION mode
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
+            if (my_Distancesensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+                break;
+            } else {
+
+            }
         }
 
         //Stop and Change Mode back to Normal
@@ -420,5 +465,4 @@ public abstract class RobotMain359 extends LinearOpMode {
         }
         return absoluteHeading + STARTING_POSITION.getHeading();
     }
-
 }
