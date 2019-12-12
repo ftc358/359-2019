@@ -38,8 +38,7 @@ public abstract class RobotMain359 extends LinearOpMode {
     protected DcMotor motor1, motor2, motor3, motor4;
     protected DcMotor frontintakeleft, frontintakeright;
     protected DcMotor corehexmotorleft, corehexmotorright;
-    protected CRServo foundation;
-    protected Servo skystoneMove;
+    protected Servo skystoneMove, foundation;
     protected DistanceSensor my_Distancesensor;
     protected BNO055IMU my_imu;
     List<Recognition> updatedRecognitions;
@@ -57,7 +56,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         corehexmotorright = hardwareMap.dcMotor.get("chright");
         frontintakeleft = hardwareMap.dcMotor.get("frontleft");
         frontintakeright = hardwareMap.dcMotor.get("frontright");
-        foundation = hardwareMap.crservo.get("foundation");
+        foundation = hardwareMap.servo.get("foundation");
         skystoneMove = hardwareMap.servo.get("skystoneMove");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -285,8 +284,6 @@ public abstract class RobotMain359 extends LinearOpMode {
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
-            telemetry.addData("you have passed initVuforia()", "yay!");
-            telemetry.update();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
