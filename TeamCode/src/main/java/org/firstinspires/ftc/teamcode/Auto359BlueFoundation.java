@@ -12,12 +12,12 @@ public class Auto359BlueFoundation extends RobotMain359 {
         waitForStart();
 
         while (opModeIsActive()) {
-            foundation.setPower(1);
+            foundation.setPosition(1);
             Thread.sleep(1000);
 
             forward(0.25, -3000);
 
-            foundation.setPower(-1);
+            foundation.setPosition(-1);
             Thread.sleep(1000);
 
             forward(0.25, 3000);

@@ -8,7 +8,7 @@ public class TeleOp359 extends RobotMain359 {
     public void runOpMode() throws InterruptedException {
         initializeSettings();
         skystoneMove.setPosition(1.);
-        foundation.setPosition(1.);
+        foundation.setPosition(0);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -36,7 +36,7 @@ public class TeleOp359 extends RobotMain359 {
             /**
              *Intake Mechanism
              */
-            if (gamepad2.y){
+            if (gamepad2.left_bumper){
                 corehexmotorleft.setPower(1);
                 corehexmotorright.setPower(1);
                 frontintakeleft.setPower(0.75);
@@ -54,15 +54,19 @@ public class TeleOp359 extends RobotMain359 {
                 frontintakeleft.setPower(0);
                 frontintakeright.setPower(0);
             }
-//
+
             /**
              *Foundation mechanism
              */
             if (gamepad2.a) {
-                foundation.setPosition(1.);
-            } else if (gamepad2.b) {
-                foundation.setPosition(0.4);
+                foundation.setPosition(0);
             }
+            else if (gamepad2.b) {
+                foundation.setPosition(0.3);
+            }
+
+            telemetry.addData("position", foundation.getPosition());
+            telemetry.update();
 
             /**
              *Skystone Move just in case there're problems during auto
