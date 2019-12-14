@@ -8,7 +8,7 @@ public class TeleOp359 extends RobotMain359 {
     public void runOpMode() throws InterruptedException {
         initializeSettings();
         skystoneMove.setPosition(1.);
-        foundation.setPosition(0);
+        foundation.setPosition(1.);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -59,10 +59,10 @@ public class TeleOp359 extends RobotMain359 {
              *Foundation mechanism
              */
             if (gamepad2.a) {
-                foundation.setPosition(0);
+                foundation.setPosition(1.);
             }
             else if (gamepad2.b) {
-                foundation.setPosition(0.3);
+                foundation.setPosition(0.7);
             }
 
             telemetry.addData("position", foundation.getPosition());
