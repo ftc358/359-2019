@@ -8,8 +8,6 @@ public class Auto359RedFoundation extends RobotMain359 {
 
     public void runOpMode() throws InterruptedException {
         initializeSettings();
-        foundation.setPosition(1.);
-        skystoneMove.setPosition(1.);
         waitForStart();
 
         while (opModeIsActive()) {

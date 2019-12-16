@@ -13,8 +13,6 @@ public class Auto359RedStone extends RobotMain359 {
 
         initializeSettings();
         state359 = state.DETECT;
-        skystoneMove.setPosition(1.);
-        foundation.setPosition(1.);
 
         waitForStart();
 

@@ -13,7 +13,6 @@ public class Auto359BlueStone extends RobotMain359 {
 
         initializeSettings();
         state359 = state.DETECT;
-        skystoneMove.setPosition(1.);
 
         waitForStart();
 

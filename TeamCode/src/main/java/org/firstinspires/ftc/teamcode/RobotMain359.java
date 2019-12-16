@@ -77,6 +77,9 @@ public abstract class RobotMain359 extends LinearOpMode {
         my_imu.initialize(parameters);
 
 //        my_Distancesensor = hardwareMap.get(DistanceSensor.class, "ds");
+
+        skystoneMove.setPosition(1.);
+        skystoneMove.setPosition(.85);
     }
 
     /**
