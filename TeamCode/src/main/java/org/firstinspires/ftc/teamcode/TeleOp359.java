@@ -60,7 +60,7 @@ public class TeleOp359 extends RobotMain359 {
                 foundation.setPosition(.85);
             }
             else if (gamepad2.b) {
-                foundation.setPosition(.5);
+                foundation.setPosition(.25);
             }
 
             telemetry.addData("position", foundation.getPosition());
