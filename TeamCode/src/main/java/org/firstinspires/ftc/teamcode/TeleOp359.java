@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp
 public class TeleOp359 extends RobotMain359 {
 
@@ -64,6 +66,8 @@ public class TeleOp359 extends RobotMain359 {
             }
 
             telemetry.addData("position", foundation.getPosition());
+            telemetry.addData("distance", leftDistanceSensor.getDistance(DistanceUnit.INCH));
+            telemetry.addData("distance", rightDistanceSensor.getDistance(DistanceUnit.INCH));
             telemetry.update();
 
             /**

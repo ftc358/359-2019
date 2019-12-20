@@ -39,8 +39,10 @@ public abstract class RobotMain359 extends LinearOpMode {
     protected DcMotor frontintakeleft, frontintakeright;
     protected DcMotor corehexmotorleft, corehexmotorright;
     protected Servo skystoneMove, foundation;
-    protected DistanceSensor my_Distancesensor;
+    protected DistanceSensor leftDistanceSensor;
+    protected DistanceSensor rightDistanceSensor;
     protected BNO055IMU my_imu;
+    state state359;
     List<Recognition> updatedRecognitions;
 
     /**
@@ -58,6 +60,8 @@ public abstract class RobotMain359 extends LinearOpMode {
         frontintakeright = hardwareMap.dcMotor.get("frontright");
         foundation = hardwareMap.servo.get("foundation");
         skystoneMove = hardwareMap.servo.get("skystoneMove");
+        leftDistanceSensor = hardwareMap.get(DistanceSensor.class, "lds");
+        rightDistanceSensor = hardwareMap.get(DistanceSensor.class, "rds");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -79,7 +83,8 @@ public abstract class RobotMain359 extends LinearOpMode {
 //        my_Distancesensor = hardwareMap.get(DistanceSensor.class, "ds");
 
         skystoneMove.setPosition(1.);
-        skystoneMove.setPosition(.85);
+        foundation.setPosition(.85);
+        state359 = state.DETECT;
     }
 
     /**
@@ -219,7 +224,11 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setPower(0);
     }
 
-    public void runWithDistanceSensor(double distanceLimitInches, double power, int inches) {
+    public void strafeWithLeftDistanceSensor(double distanceLimitInches, double power, int inches) {
+
+        telemetry.addData("leftdistance", leftDistanceSensor.getDistance(DistanceUnit.INCH));
+        telemetry.addData("rightdistance", rightDistanceSensor.getDistance(DistanceUnit.INCH));
+        telemetry.update();
 
         final double FORWARD_DISTANCE = inches * FORWARD_ADJUST;
 
@@ -236,9 +245,9 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setTargetPosition(motor4.getCurrentPosition() + (int) FORWARD_DISTANCE);
 
         //Set Drive Power
-        motor1.setPower(-power);
+        motor1.setPower(power);
         motor2.setPower(power);
-        motor3.setPower(power);
+        motor3.setPower(-power);
         motor4.setPower(-power);
 
         //Set to RUN_TO_POSITION mode
@@ -248,11 +257,156 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
-            if (my_Distancesensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+            if (leftDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+                state359 = state.STOP;
                 break;
             } else {
 
             }
+        }
+
+        //Stop and Change Mode back to Normal
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
+    public void strafeWithrightDistanceSensor(double distanceLimitInches, double power, int inches) {
+
+        telemetry.addData("leftdistance", leftDistanceSensor.getDistance(DistanceUnit.INCH));
+        telemetry.addData("rightdistance", rightDistanceSensor.getDistance(DistanceUnit.INCH));
+        telemetry.update();
+
+        final double FORWARD_DISTANCE = inches * FORWARD_ADJUST;
+
+        //Reset Encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        motor1.setTargetPosition(motor1.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + (int) FORWARD_DISTANCE);
+
+        //Set Drive Power
+        motor1.setPower(power);
+        motor2.setPower(power);
+        motor3.setPower(-power);
+        motor4.setPower(-power);
+
+        //Set to RUN_TO_POSITION mode
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
+            if (rightDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+                state359 = state.STOP;
+                break;
+            } else {
+
+            }
+        }
+
+        //Stop and Change Mode back to Normal
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
+    public void strafeWithLeftDistanceSensorFoundation(double distanceLimitInches, double power, int inches) {
+
+        telemetry.addData("leftdistance", leftDistanceSensor.getDistance(DistanceUnit.INCH));
+        telemetry.addData("rightdistance", rightDistanceSensor.getDistance(DistanceUnit.INCH));
+        telemetry.update();
+
+        final double FORWARD_DISTANCE = inches * FORWARD_ADJUST;
+
+        //Reset Encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        motor1.setTargetPosition(motor1.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + (int) FORWARD_DISTANCE);
+
+        //Set Drive Power
+        motor1.setPower(power);
+        motor2.setPower(power);
+        motor3.setPower(-power);
+        motor4.setPower(-power);
+
+        //Set to RUN_TO_POSITION mode
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
+            if (leftDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+                state359 = state.DRIVE;
+                break;
+            } else {
+
+            }
+        }
+
+        //Stop and Change Mode back to Normal
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+    }
+
+    public void strafeWithRightDistanceSensorFoundation(double distanceLimitInches, double power, int inches) {
+
+        boolean done = false;
+
+        final double FORWARD_DISTANCE = inches * FORWARD_ADJUST;
+
+        //Reset Encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        motor1.setTargetPosition(motor1.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor2.setTargetPosition(motor2.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor3.setTargetPosition(motor3.getCurrentPosition() + (int) FORWARD_DISTANCE);
+        motor4.setTargetPosition(motor4.getCurrentPosition() + (int) FORWARD_DISTANCE);
+
+        //Set Drive Power
+        motor1.setPower(power);
+        motor2.setPower(power);
+        motor3.setPower(-power);
+        motor4.setPower(-power);
+
+        //Set to RUN_TO_POSITION mode
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy() && !done) {
+            if (rightDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+                state359 = state.DRIVE;
+                done = true;
+            }
+        }
+
+        if (!done) {
+            state359 = state.REST;
         }
 
         //Stop and Change Mode back to Normal
@@ -292,7 +446,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         }
     }
 
-    public int lookForwardAndCheckBlue(){
+    public int lookForwardAndCheckBlue() {
         int position = 0;
         initVuforiaThingy();
 
@@ -346,19 +500,16 @@ public abstract class RobotMain359 extends LinearOpMode {
                                 } else if (stonePosition > THRESHOLD) {
                                     position = 1;
                                 }
-                            }
-                            else {
+                            } else {
                                 position = 3;
                             }
                         }
-                    }else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
+                    } else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
+                        position = 3;
+                    } else {
                         position = 3;
                     }
-                    else {
-                        position = 3;
-                    }
-                }
-                else {
+                } else {
                     //This means that we have not detected a Skystone, so the Skystone is
                     // probably at position 3
                     position = 3;
@@ -422,19 +573,16 @@ public abstract class RobotMain359 extends LinearOpMode {
                                 } else if (stonePosition > THRESHOLD) {
                                     position = 2;
                                 }
-                            }
-                            else {
+                            } else {
                                 position = 1;
                             }
                         }
-                    }else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
+                    } else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
+                        position = 1;
+                    } else {
                         position = 1;
                     }
-                    else {
-                        position = 1;
-                    }
-                }
-                else {
+                } else {
                     //This means that we have not detected a Skystone, so the Skystone is
                     // probably at position 3
                     position = 1;
@@ -464,5 +612,11 @@ public abstract class RobotMain359 extends LinearOpMode {
             absoluteHeading = 360 - angles.firstAngle;
         }
         return absoluteHeading + STARTING_POSITION.getHeading();
+    }
+
+    enum state {
+
+        DETECT, DRIVE, STOP, REST
+
     }
 }

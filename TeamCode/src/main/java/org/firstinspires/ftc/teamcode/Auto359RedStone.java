@@ -6,13 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class Auto359RedStone extends RobotMain359 {
 
     int detected = 0;
-    state state359;
     boolean done = false;
 
     public void runOpMode() throws InterruptedException {
 
         initializeSettings();
-        state359 = state.DETECT;
 
         waitForStart();
 
@@ -72,7 +70,7 @@ public class Auto359RedStone extends RobotMain359 {
                             forward(0.5,10);
                             break;
                     }
-                    state359 = Auto359RedStone.state.STOP;
+                    state359 = state.STOP;
                     break;
 
                 case STOP:
@@ -84,11 +82,5 @@ public class Auto359RedStone extends RobotMain359 {
                     break;
             }
         }
-    }
-
-    enum state {
-
-        DETECT, DRIVE, STOP
-
     }
 }

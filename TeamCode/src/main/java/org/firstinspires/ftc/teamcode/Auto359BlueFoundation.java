@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous
 public class Auto359BlueFoundation extends RobotMain359 {
@@ -11,14 +10,26 @@ public class Auto359BlueFoundation extends RobotMain359 {
         waitForStart();
 
         while (opModeIsActive()) {
-            foundation.setPosition(1);
-            forward(0.25, -3000);
-            foundation.setPosition(-1);
+            telemetry.addData("state", state359);
+            telemetry.update();
+            switch (state359) {
+                case DETECT:
 
-            forward(0.25, 3000);
-            turn(0.25, 1500);
-            forward(0.25, 4000);
+                    state359 = state.STOP;
+                    break;
 
+                case DRIVE:
+
+                    state359 = state.STOP;
+                    break;
+
+                case STOP:
+                    motor1.setPower(0);
+                    motor2.setPower(0);
+                    motor3.setPower(0);
+                    motor4.setPower(0);
+                    break;
+            }
             break;
         }
     }
