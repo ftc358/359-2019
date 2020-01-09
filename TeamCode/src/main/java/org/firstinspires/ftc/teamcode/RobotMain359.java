@@ -399,9 +399,11 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy() && !done) {
-            if (rightDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
-                state359 = state.DRIVE;
-                done = true;
+            while (rightDistanceSensor.getDistance(DistanceUnit.INCH) != DistanceSensor.distanceOutOfRange){
+                if (rightDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+                    state359 = state.DRIVE;
+                    done = true;
+                }
             }
         }
 
