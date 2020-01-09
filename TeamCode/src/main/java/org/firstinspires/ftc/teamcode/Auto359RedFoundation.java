@@ -33,9 +33,8 @@ public class Auto359RedFoundation extends RobotMain359 {
                     break;
 
                 case DRIVE:
-                    skystoneMove.setPosition(.4);
-                    forward(0.25, -26);
-                    strafe(0.25, 15);
+                    forward(0.75, -23);
+                    strafe(0.75, 15);
                     skystoneMove.setPosition(.4);
                     state359 = state.STOP;
                     break;

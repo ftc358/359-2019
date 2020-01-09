@@ -322,6 +322,8 @@ public abstract class RobotMain359 extends LinearOpMode {
 
     public void strafeWithLeftDistanceSensorFoundation(double distanceLimitInches, double power, int inches) {
 
+        boolean done = false;
+
         telemetry.addData("leftdistance", leftDistanceSensor.getDistance(DistanceUnit.INCH));
         telemetry.addData("rightdistance", rightDistanceSensor.getDistance(DistanceUnit.INCH));
         telemetry.update();
@@ -352,13 +354,17 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy()) {
-            if (leftDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
-                state359 = state.DRIVE;
-                break;
-            } else {
-
+        while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy() && !done) {
+            if (leftDistanceSensor.getDistance(DistanceUnit.INCH) != DistanceSensor.distanceOutOfRange){
+                if (leftDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
+                    state359 = state.DRIVE;
+                    done = true;
+                }
             }
+        }
+
+        if (!done) {
+            state359 = state.REST;
         }
 
         //Stop and Change Mode back to Normal
@@ -399,7 +405,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (motor1.isBusy() && motor2.isBusy() && motor3.isBusy() && motor4.isBusy() && !done) {
-            while (rightDistanceSensor.getDistance(DistanceUnit.INCH) != DistanceSensor.distanceOutOfRange){
+            if (rightDistanceSensor.getDistance(DistanceUnit.INCH) != DistanceSensor.distanceOutOfRange){
                 if (rightDistanceSensor.getDistance(DistanceUnit.INCH) < distanceLimitInches) {
                     state359 = state.DRIVE;
                     done = true;
