@@ -40,10 +40,11 @@ public class Auto359RedStone extends RobotMain359 {
                             sleep(500);
                             skystoneMove.setPosition(.4);
                             sleep(1000);
-                            strafe(0.5,-25);
+                            strafe(0.5,-10);
                             forward(0.5,-54);
                             skystoneMove.setPosition(1.);
                             forward(0.5,24);
+                            strafe(0.5,3);
                             break;
                         case 2:
                             turn(0.5,-85);
@@ -52,10 +53,11 @@ public class Auto359RedStone extends RobotMain359 {
                             sleep(500);
                             skystoneMove.setPosition(.4);
                             sleep(1000);
-                            strafe(0.5,-25);
+                            strafe(0.5,-10);
                             forward(0.5,-47);
                             skystoneMove.setPosition(1.);
                             forward(0.5,17);
+                            strafe(0.5,3);
                             break;
                         case 3:
                             turn(0.5,-85);
@@ -64,10 +66,11 @@ public class Auto359RedStone extends RobotMain359 {
                             sleep(500);
                             skystoneMove.setPosition(.4);
                             sleep(1000);
-                            strafe(0.5,-25);
+                            strafe(0.5,-10);
                             forward(0.5,-40);
                             skystoneMove.setPosition(1.);
                             forward(0.5,10);
+                            strafe(0.5,3);
                             break;
                     }
                     state359 = state.STOP;

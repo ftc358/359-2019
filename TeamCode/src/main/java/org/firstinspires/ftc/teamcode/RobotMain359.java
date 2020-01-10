@@ -29,8 +29,6 @@ public abstract class RobotMain359 extends LinearOpMode {
             "ARk+AQb/////AAABmV0RDGTiBEXluSpswNWIs+oLdAjW3AE6onoU0iyNfIiXnU0gt0DHT4m9FEzlJ+IoRun4NQglstqKn8rCzNvE7D+SS6FI2jWjhfD9UzfaedCHHCR+4VfLVFqAkUSIys2kX58N0D2E5GsxvFW0TdXI44RWZ1neUt8lbmK2uDTZfo+NtOSgqvSJEsrG0J6nLv9Cr+CAB6/X71URFpH2WtCJRH/F+6Y1Usy4b6uDdMoSKocv4B4j0DO3EuQuV1p/PCk3naRGYuKCdamnkcHMK/kK1yOoXtvRjFh374/3YtHkzFMCl7q3eHvh5h7X6kVCGXYheQurpk7JXScxZttBfiCi3GJQWnN6Ia6bIWx9aKe5WuPN";
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
-    public RobotPosition359 STARTING_POSITION;
-    public RobotPosition359 CURRENT_POSITION;
     public static final double FORWARD_ADJUST = 98.04;
     public static final double TURN_ADJUST = 10.0 * (90.0 / 47.0) * (720.0 / 702.0);
     public static final double STRAFE_ADJUST = 98.04;
@@ -514,10 +512,14 @@ public abstract class RobotMain359 extends LinearOpMode {
                         }
                     } else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
                         position = 3;
-                    } else {
-                        position = 3;
                     }
-                } else {
+                } else if (updatedRecognitions.size() == 1) {
+                    int THRESHOLD = 200;
+                    if (updatedRecognitions.get(0).getLeft() > THRESHOLD) {
+                        position = 2;
+                    }
+                }
+                else {
                     //This means that we have not detected a Skystone, so the Skystone is
                     // probably at position 3
                     position = 3;
@@ -587,10 +589,14 @@ public abstract class RobotMain359 extends LinearOpMode {
                         }
                     } else if (updatedRecognitions.get(0).getLabel() == "Skystone" && updatedRecognitions.get(1).getLabel() == "Skystone") {
                         position = 1;
-                    } else {
-                        position = 1;
                     }
-                } else {
+                } else if (updatedRecognitions.size() == 1) {
+                    int THRESHOLD = 200;
+                    if (updatedRecognitions.get(0).getLeft() > THRESHOLD) {
+                        position = 3;
+                    }
+                }
+                else {
                     //This means that we have not detected a Skystone, so the Skystone is
                     // probably at position 3
                     position = 1;
@@ -604,23 +610,6 @@ public abstract class RobotMain359 extends LinearOpMode {
      * imu settings
      */
     //TODO: Think of a way to make this initialize function work in an actual Opmode
-    public void initialize(RobotPosition359 STARTING_POSITION) throws InterruptedException {
-        initializeSettings();
-        this.STARTING_POSITION = STARTING_POSITION;
-        CURRENT_POSITION = STARTING_POSITION;
-    }
-
-    public double getAbsoluteCurrentHeading() {
-        Orientation angles = my_imu.getAngularOrientation().toAxesReference(
-                AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX).toAngleUnit(AngleUnit.DEGREES);
-        double absoluteHeading;
-        if (angles.firstAngle <= 0) {
-            absoluteHeading = -angles.firstAngle;
-        } else {
-            absoluteHeading = 360 - angles.firstAngle;
-        }
-        return absoluteHeading + STARTING_POSITION.getHeading();
-    }
 
     enum state {
 

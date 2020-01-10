@@ -28,10 +28,10 @@ public class TeleOp359 extends RobotMain359 {
             double v3 = LeftY - LeftX + RightX;
             double v4 = LeftY + LeftX - RightX;
 
-            motor1.setPower(v1);
-            motor2.setPower(v2);
-            motor3.setPower(v3);
-            motor4.setPower(v4);
+            motor1.setPower(.5 * v1);
+            motor2.setPower(.5 * v2);
+            motor3.setPower(.5 * v3);
+            motor4.setPower(.5 * v4);
 
             /**
              *Intake Mechanism
