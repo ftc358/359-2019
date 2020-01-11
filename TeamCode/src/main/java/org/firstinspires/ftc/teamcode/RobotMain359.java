@@ -81,7 +81,7 @@ public abstract class RobotMain359 extends LinearOpMode {
 //        my_Distancesensor = hardwareMap.get(DistanceSensor.class, "ds");
 
         skystoneMove.setPosition(1.);
-        foundation.setPosition(.85);
+        foundation.setPosition(.80);
         state359 = state.DETECT;
     }
 

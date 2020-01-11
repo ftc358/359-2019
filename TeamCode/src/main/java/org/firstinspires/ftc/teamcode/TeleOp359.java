@@ -39,14 +39,14 @@ public class TeleOp359 extends RobotMain359 {
             if (gamepad2.left_bumper){
                 corehexmotorleft.setPower(1);
                 corehexmotorright.setPower(1);
-                frontintakeleft.setPower(0.75);
-                frontintakeright.setPower(0.75);
+                frontintakeleft.setPower(0.4);
+                frontintakeright.setPower(0.4);
             }
             else if (gamepad2.right_bumper){
                 corehexmotorleft.setPower(-1);
                 corehexmotorright.setPower(-1);
-                frontintakeleft.setPower(-0.75);
-                frontintakeright.setPower(-0.75);
+                frontintakeleft.setPower(-0.4);
+                frontintakeright.setPower(-0.4);
             }
             else{
                 corehexmotorleft.setPower(0);
@@ -59,10 +59,10 @@ public class TeleOp359 extends RobotMain359 {
              *Foundation mechanism
              */
             if (gamepad2.a) {
-                foundation.setPosition(.85);
+                foundation.setPosition(.80);
             }
             else if (gamepad2.b) {
-                foundation.setPosition(.25);
+                foundation.setPosition(-.1);
             }
 
             telemetry.addData("position", foundation.getPosition());
