@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp
@@ -14,7 +13,7 @@ public class TeleOp359 extends RobotMain359 {
         while (opModeIsActive()) {
 
             telemetry.addData("opModeIsActive", opModeIsActive());
-//            telemetry.update();
+            telemetry.update();
 
             /**
              * Mechanum
@@ -28,58 +27,69 @@ public class TeleOp359 extends RobotMain359 {
             double v3 = LeftY - LeftX + RightX;
             double v4 = LeftY + LeftX - RightX;
 
-            motor1.setPower(.5 * v1);
-            motor2.setPower(.5 * v2);
-            motor3.setPower(.5 * v3);
-            motor4.setPower(.5 * v4);
+            motor1.setPower(v1);
+            motor2.setPower(v2);
+            motor3.setPower(v3);
+            motor4.setPower(v4);
 
             /**
              *Intake Mechanism
              */
-            if (gamepad2.left_bumper){
-                corehexmotorleft.setPower(1);
-                corehexmotorright.setPower(1);
-                frontintakeleft.setPower(0.4);
-                frontintakeright.setPower(0.4);
+            if (gamepad1.left_bumper){
+                intakeleft.setPower(0.4);
+                intakeright.setPower(0.4);
             }
-            else if (gamepad2.right_bumper){
-                corehexmotorleft.setPower(-1);
-                corehexmotorright.setPower(-1);
-                frontintakeleft.setPower(-0.4);
-                frontintakeright.setPower(-0.4);
+            else if (gamepad1.right_bumper){
+                intakeleft.setPower(-0.4);
+                intakeright.setPower(-0.4);
             }
             else{
-                corehexmotorleft.setPower(0);
-                corehexmotorright.setPower(0);
-                frontintakeleft.setPower(0);
-                frontintakeright.setPower(0);
+                intakeleft.setPower(0);
+                intakeright.setPower(0);
             }
 
             /**
-             *Foundation mechanism
+             * Linear Slide
              */
-            if (gamepad2.a) {
-                foundation.setPosition(.80);
+            if (gamepad2.left_bumper) {
+                slide.setPower(0.3);
             }
-            else if (gamepad2.b) {
-                foundation.setPosition(-.1);
+            else if (gamepad2.right_bumper) {
+                slide.setPower(-0.3);
             }
-
-            telemetry.addData("position", foundation.getPosition());
-            telemetry.addData("distance", leftDistanceSensor.getDistance(DistanceUnit.INCH));
-            telemetry.addData("distance", rightDistanceSensor.getDistance(DistanceUnit.INCH));
-            telemetry.update();
+            else {
+                slide.setPower(0);
+            }
 
             /**
-             *Skystone Move just in case there're problems during auto
+             * Graber Mechanism
              */
+            if (gamepad2.a){
+                graber.setPosition(.8);
+            }
+            else if (gamepad2.b){
+                graber.setPosition(.4);
+            }
 
-            if (gamepad1.dpad_up) {
-                skystoneMove.setPosition(1.);
-            }
-            else if (gamepad1.dpad_down){
-                skystoneMove.setPosition(.4);
-            }
+//            /**
+//             *Foundation mechanism
+//             */
+//            if (gamepad2.dpad_up) {
+//                foundation.setPosition(.80);
+//            }
+//            else if (gamepad2.dpad_down) {
+//                foundation.setPosition(-.1);
+//            }
+
+//            /**
+//             *Skystone Move just in case there're problems during auto
+//             */
+//            if (gamepad1.dpad_up) {
+//                skystoneMove.setPosition(1.);
+//            }
+//            else if (gamepad1.dpad_down){
+//                skystoneMove.setPosition(.4);
+//            }
         }
     }
 }

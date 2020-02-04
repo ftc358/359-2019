@@ -34,8 +34,9 @@ public abstract class RobotMain359 extends LinearOpMode {
     public static final double STRAFE_ADJUST = 98.04;
     //Motors and sensors
     protected DcMotor motor1, motor2, motor3, motor4;
-    protected DcMotor frontintakeleft, frontintakeright;
-    protected DcMotor corehexmotorleft, corehexmotorright;
+    protected DcMotor intakeleft, intakeright;
+    protected DcMotor slide;
+    protected Servo graber, twist;
     protected Servo skystoneMove, foundation;
     protected DistanceSensor leftDistanceSensor;
     protected DistanceSensor rightDistanceSensor;
@@ -52,14 +53,15 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         motor4 = hardwareMap.dcMotor.get("motor4");
-        corehexmotorleft = hardwareMap.dcMotor.get("chleft");
-        corehexmotorright = hardwareMap.dcMotor.get("chright");
-        frontintakeleft = hardwareMap.dcMotor.get("frontleft");
-        frontintakeright = hardwareMap.dcMotor.get("frontright");
-        foundation = hardwareMap.servo.get("foundation");
-        skystoneMove = hardwareMap.servo.get("skystoneMove");
-        leftDistanceSensor = hardwareMap.get(DistanceSensor.class, "lds");
-        rightDistanceSensor = hardwareMap.get(DistanceSensor.class, "rds");
+        intakeleft = hardwareMap.dcMotor.get("frontleft");
+        intakeright = hardwareMap.dcMotor.get("frontright");
+//        foundation = hardwareMap.servo.get("foundation");
+//        skystoneMove = hardwareMap.servo.get("skystoneMove");
+        graber = hardwareMap.servo.get("graber");
+        twist = hardwareMap.servo.get("twist");
+
+//        leftDistanceSensor = hardwareMap.get(DistanceSensor.class, "lds");
+//        rightDistanceSensor = hardwareMap.get(DistanceSensor.class, "rds");
 
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -68,7 +70,7 @@ public abstract class RobotMain359 extends LinearOpMode {
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontintakeright.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeleft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -78,11 +80,9 @@ public abstract class RobotMain359 extends LinearOpMode {
         my_imu = hardwareMap.get(BNO055IMU.class, "imu");
         my_imu.initialize(parameters);
 
-//        my_Distancesensor = hardwareMap.get(DistanceSensor.class, "ds");
-
-        skystoneMove.setPosition(1.);
-        foundation.setPosition(.80);
-        state359 = state.DETECT;
+//        skystoneMove.setPosition(1.);
+//        foundation.setPosition(.80);
+//        state359 = state.DETECT;
     }
 
     /**
@@ -128,7 +128,7 @@ public abstract class RobotMain359 extends LinearOpMode {
     }
 
     public void forwardWithOneMotor(DcMotor motorBob, double power, int rotations) {
-//        motorBob.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBob.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBob.setTargetPosition(motorBob.getCurrentPosition() + rotations * 1000);
         motorBob.setPower(power);
         motorBob.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -220,6 +220,15 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor2.setPower(0);
         motor3.setPower(0);
         motor4.setPower(0);
+    }
+
+    public void frontIntake(double power, int time) throws InterruptedException {
+
+        int seconds = time * 1000;
+        intakeleft.setPower(power);
+        intakeright.setPower(power);
+        Thread.sleep(seconds);
+
     }
 
     public void strafeWithLeftDistanceSensor(double distanceLimitInches, double power, int inches) {
@@ -514,15 +523,17 @@ public abstract class RobotMain359 extends LinearOpMode {
                         position = 3;
                     }
                 } else if (updatedRecognitions.size() == 1) {
-                    int THRESHOLD = 200;
-                    if (updatedRecognitions.get(0).getLeft() > THRESHOLD) {
-                        position = 2;
+                    if (updatedRecognitions.get(0).getLabel() == "Skystone"){
+                        int THRESHOLD = 200;
+                        if (updatedRecognitions.get(0).getLeft() > THRESHOLD) {
+                            position = 2;
+                        }else if (updatedRecognitions.get(0).getLeft() < THRESHOLD){
+                            position = 1;
+                        }
+                    }else if (updatedRecognitions.get(0).getLabel() == "Stone"){
+                        position = 3;
                     }
-                }
-                else {
-                    //This means that we have not detected a Skystone, so the Skystone is
-                    // probably at position 3
-                    position = 3;
+
                 }
             }
         }
@@ -591,15 +602,16 @@ public abstract class RobotMain359 extends LinearOpMode {
                         position = 1;
                     }
                 } else if (updatedRecognitions.size() == 1) {
-                    int THRESHOLD = 200;
-                    if (updatedRecognitions.get(0).getLeft() > THRESHOLD) {
-                        position = 3;
+                    if (updatedRecognitions.get(0).getLabel() == "Skystone"){
+                        int THRESHOLD = 200;
+                        if (updatedRecognitions.get(0).getLeft() > THRESHOLD) {
+                            position = 3;
+                        }else if (updatedRecognitions.get(0).getLeft() < THRESHOLD){
+                            position = 2;
+                        }
+                    }else if (updatedRecognitions.get(0).getLabel() == "Stone"){
+                        position = 1;
                     }
-                }
-                else {
-                    //This means that we have not detected a Skystone, so the Skystone is
-                    // probably at position 3
-                    position = 1;
                 }
             }
         }

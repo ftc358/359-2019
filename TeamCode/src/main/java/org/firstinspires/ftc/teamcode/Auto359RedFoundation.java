@@ -29,7 +29,7 @@ public class Auto359RedFoundation extends RobotMain359 {
                     forward(0.15, 30);
                     foundation.setPosition(.8);
                     sleep(500);
-                    sleep(3000);
+                    sleep(8000);
                     strafeWithRightDistanceSensorFoundation(10, 0.3, 50);
                     break;
 
