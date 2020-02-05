@@ -55,6 +55,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         motor4 = hardwareMap.dcMotor.get("motor4");
         intakeleft = hardwareMap.dcMotor.get("frontleft");
         intakeright = hardwareMap.dcMotor.get("frontright");
+        slide = hardwareMap.dcMotor.get("slide");
 //        foundation = hardwareMap.servo.get("foundation");
 //        skystoneMove = hardwareMap.servo.get("skystoneMove");
         graber = hardwareMap.servo.get("graber");
@@ -70,7 +71,7 @@ public abstract class RobotMain359 extends LinearOpMode {
 
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor3.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeleft.setDirection(DcMotorSimple.Direction.REVERSE);
+//        intakeleft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -80,6 +81,7 @@ public abstract class RobotMain359 extends LinearOpMode {
         my_imu = hardwareMap.get(BNO055IMU.class, "imu");
         my_imu.initialize(parameters);
 
+        graber.setPosition(.8);
 //        skystoneMove.setPosition(1.);
 //        foundation.setPosition(.80);
 //        state359 = state.DETECT;

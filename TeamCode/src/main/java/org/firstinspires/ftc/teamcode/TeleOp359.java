@@ -36,12 +36,12 @@ public class TeleOp359 extends RobotMain359 {
              *Intake Mechanism
              */
             if (gamepad1.left_bumper){
-                intakeleft.setPower(0.4);
-                intakeright.setPower(0.4);
+                intakeleft.setPower(0.75);
+                intakeright.setPower(0.75);
             }
             else if (gamepad1.right_bumper){
-                intakeleft.setPower(-0.4);
-                intakeright.setPower(-0.4);
+                intakeleft.setPower(-0.75);
+                intakeright.setPower(-0.75);
             }
             else{
                 intakeleft.setPower(0);
@@ -52,10 +52,10 @@ public class TeleOp359 extends RobotMain359 {
              * Linear Slide
              */
             if (gamepad2.left_bumper) {
-                slide.setPower(0.3);
+                slide.setPower(0.5);
             }
             else if (gamepad2.right_bumper) {
-                slide.setPower(-0.3);
+                slide.setPower(-0.5);
             }
             else {
                 slide.setPower(0);
@@ -65,10 +65,20 @@ public class TeleOp359 extends RobotMain359 {
              * Graber Mechanism
              */
             if (gamepad2.a){
-                graber.setPosition(.8);
+                graber.setPosition(.85);
             }
             else if (gamepad2.b){
-                graber.setPosition(.4);
+                graber.setPosition(.6);
+            }
+
+            /**
+             * Twist Mechanism
+             */
+            if (gamepad2.x){
+                twist.setPosition(.8);
+            }
+            else if (gamepad2.y){
+                twist.setPosition(.4);
             }
 
 //            /**
